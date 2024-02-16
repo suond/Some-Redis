@@ -55,11 +55,11 @@ public class Main {
                       }
                       String cmd = inputs.get(1);
                       if (cmd.equalsIgnoreCase("ping")) {
-                          outputStream.write("+PONG\r\n" .getBytes());
+                          outputStream.write("+PONG\r\n".getBytes());
                           outputStream.flush();
                       } else if (cmd.equalsIgnoreCase("echo")) {
-                          String echoOut = inputs.get(3)+ "\r\n";
-                          outputStream.write( echoOut.getBytes());
+                          String echoOut = "+"+inputs.get(3)+ "\r\n";
+                          outputStream.write(echoOut.getBytes());
                           outputStream.flush();
                       }
                   }
