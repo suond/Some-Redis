@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -44,12 +46,24 @@ public class Main {
 
               String command;
               while ((command = reader.readLine()) != null) {
-                  System.out.println(command);
-                  if (command.equals("ping")) {
-                      outputStream.write("+PONG\r\n" .getBytes());
-                      //empties so other threads don't push in that info
-                      outputStream.flush();
+                  if (command.startsWith("*")){
+                      int numOfItems = Integer.parseInt(command.substring(1));
+                      ArrayList<String> inputs = new ArrayList<>(numOfItems * 2);
+                      for (int i =0; i < numOfItems * 2; i++){
+                          inputs.add(reader.readLine());
+                          System.out.println("element " + i + " is: " + inputs.get(i));
+                      }
+                      String cmd = inputs.get(1);
+                      if (cmd.equalsIgnoreCase("ping")) {
+                          outputStream.write("+PONG\r\n" .getBytes());
+                          outputStream.flush();
+                      } else if (cmd.equalsIgnoreCase("echo")) {
+                          String echoOut = inputs.get(3)+ "\r\n";
+                          outputStream.write( echoOut.getBytes());
+                          outputStream.flush();
+                      }
                   }
+
               }
           } catch (Exception e) {
               System.out.println("Issue occurred in handle " + e.getMessage());
@@ -64,3 +78,5 @@ public class Main {
 
       }
   }
+
+                      }
