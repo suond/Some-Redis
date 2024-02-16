@@ -30,6 +30,7 @@ public class Main {
          }
 //         outputStream.write("+PONG\r\n".getBytes());
          outputStream.close();
+         reader.close();
        } catch (IOException e) {
          System.out.println("IOException: " + e.getMessage());
        } finally {
