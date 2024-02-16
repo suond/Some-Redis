@@ -10,16 +10,14 @@ public class Main {
       System.out.println("Logs from your program will appear here!");
 
       ExecutorService executorService = Executors.newCachedThreadPool();
-      //  Uncomment this block to pass the first stage
-      ServerSocket serverSocket = null;
+//      ServerSocket serverSocket = null;
 
       final int port = 6379;
-//      final Socket clientSocket;
-      try {
-          serverSocket = new ServerSocket(port);
+      try(ServerSocket serverSocket = new ServerSocket(port)) {
+//          serverSocket = new ServerSocket(port);
           serverSocket.setReuseAddress(true);
 
-          while (true) {
+          while (!serverSocket.isClosed()) {
               try {
                  final Socket clientSocket = serverSocket.accept();
                   executorService.execute(() -> handle(clientSocket));
@@ -30,36 +28,38 @@ public class Main {
 //         outputStream.close();
 //         reader.close();
       } catch (IOException e) {
-//          executorService.close();
           System.out.println("IOException: " + e.getMessage());
+      } finally {
+          executorService.shutdown();
       }
-//         try {
-//           if (clientSocket != null) {
-//             clientSocket.close();
-//           }
-//         } catch (IOException e) {
-//           System.out.println("IOException: " + e.getMessage());
-//         }
-//       }
-      }
+
+  }
 
 
       public static void handle (Socket clientSocket){
-          try {
-              InputStream inputStream = clientSocket.getInputStream();
-              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+          try (InputStream inputStream = clientSocket.getInputStream()){
 
+              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
               OutputStream outputStream = clientSocket.getOutputStream();
-//         OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+
               String command;
               while ((command = reader.readLine()) != null) {
+                  System.out.println(command);
                   if (command.equals("ping")) {
                       outputStream.write("+PONG\r\n" .getBytes());
+                      //empties so other threads don't push in that info
                       outputStream.flush();
                   }
               }
           } catch (Exception e) {
               System.out.println("Issue occurred in handle " + e.getMessage());
+          } finally {
+              try {
+
+                  clientSocket.close();
+              } catch (IOException e){
+                  System.out.println("could not close socket " + e.getMessage());
+              }
           }
 
       }
