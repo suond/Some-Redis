@@ -53,6 +53,7 @@ public class Main {
 
               String command;
               while ((command = reader.readLine()) != null) {
+                  System.out.println("COMMAND is: " + command);
                   if (command.startsWith("*")){
                       int numOfItems = Integer.parseInt(command.substring(1));
                       ArrayList<String> inputs = new ArrayList<>(numOfItems * 2);
