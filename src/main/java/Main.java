@@ -1,13 +1,22 @@
+import command.Echo;
+import command.Get;
+import command.Ping;
+import command.Set;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
+    static Map<String, String> cache = new HashMap<>();
   public static void main(String[] args) {
+
       // You can use print statements as follows for debugging, they'll be visible when running tests.
       System.out.println("Logs from your program will appear here!");
 
@@ -27,8 +36,6 @@ public class Main {
                   System.out.println("IOException: " + e.getMessage());
               }
           }
-//         outputStream.close();
-//         reader.close();
       } catch (IOException e) {
           System.out.println("IOException: " + e.getMessage());
       } finally {
@@ -37,12 +44,12 @@ public class Main {
 
   }
 
-
       public static void handle (Socket clientSocket){
           try (InputStream inputStream = clientSocket.getInputStream()){
 
               BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
               OutputStream outputStream = clientSocket.getOutputStream();
+//              PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
 
               String command;
               while ((command = reader.readLine()) != null) {
@@ -54,13 +61,16 @@ public class Main {
                           System.out.println("element " + i + " is: " + inputs.get(i));
                       }
                       String cmd = inputs.get(1);
-                      if (cmd.equalsIgnoreCase("ping")) {
-                          outputStream.write("+PONG\r\n".getBytes());
-                          outputStream.flush();
-                      } else if (cmd.equalsIgnoreCase("echo")) {
-                          String echoOut = "+"+inputs.get(3)+ "\r\n";
-                          outputStream.write(echoOut.getBytes());
-                          outputStream.flush();
+                      switch (cmd.toLowerCase()) {
+                          case Constants.CMD_PING:
+                              outputStream.write( new Ping().print(inputs, cache));
+
+                          case Constants.CMD_ECHO:
+                              outputStream.write( new Echo().print(inputs,cache));
+                          case Constants.CMD_SET:
+                              outputStream.write(new Set().print(inputs, cache));
+                          case Constants.CMD_GET:
+                              outputStream.write(new Get().print(inputs, cache));
                       }
                   }
 
