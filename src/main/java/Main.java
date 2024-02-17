@@ -65,7 +65,6 @@ public class Main {
                       switch (cmd.toLowerCase()) {
                           case Constants.CMD_PING:
                               outputStream.write( new Ping().print(inputs, cache));
-
                           case Constants.CMD_ECHO:
                               outputStream.write( new Echo().print(inputs,cache));
                           case Constants.CMD_SET:

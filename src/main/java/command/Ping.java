@@ -10,6 +10,7 @@ public class Ping implements Command {
 
     @Override
     public byte[] print(List<String> strings, Map<String, String> cache) {
+        System.out.println("hit ping");
         return "+PONG\r\n".getBytes();
     }
 }
