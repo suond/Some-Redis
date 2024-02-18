@@ -11,7 +11,7 @@ public class Main {
       // You can use print statements as follows for debugging, they'll be visible when running tests.
       System.out.println("Logs from your program will appear here!");
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
-          if (args[2].equals("--replicaof")){
+          if (args.length > 2 && args[2].equals("--replicaof")){
               RedisReplica redis = new RedisReplica(args);
           } else {
             Redis redis = new Redis(args);
