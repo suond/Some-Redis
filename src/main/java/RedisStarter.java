@@ -29,7 +29,7 @@ public class RedisStarter {
 
         try{
             cmd = parsers.parse(options, args);
-            if (cmd.hasOption("replicaof")){
+            if (cmd.hasOption("replicaof")) {
                 server = new RedisSlave();
                 server.setRole("slave");
                 String[] relicaofCmds = cmd.getOptionValues("replicaof");

@@ -57,9 +57,9 @@ public class Redis {
 //    }
 
     public Redis(){
-        masterReplid = randomId();
-        this.port = 6379;
-        startServer();
+//        masterReplid = randomId();
+//        this.port = 6379;
+//        startServer();
     }
 
     public int getPort(){
