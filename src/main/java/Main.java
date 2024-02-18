@@ -26,20 +26,13 @@ public class Main {
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
           System.out.println("jumping into here");
           Redis redis = new Redis(Integer.parseInt(args[1]));
-//          if (args.length > 3){
-              boolean n1 = args.length == 5;
-          System.out.println(n1);
-//              boolean n2 = args[2].equals("--replicaof");
-//              System.out.println("1= " + n1 + ", 2=" + n2);
-//          }
-
-          if (args.length == 5 && args[2].equals("--replicaof")){
+          if (true){
               System.out.println("inside slave replica");
-              String masterHost = args[3];
-              int masterIp = Integer.parseInt(args[4]);
-              redis.setMasterHost(masterHost);
-              redis.setMasterIp(masterIp);
-              redis.setRole("slave");
+//              String masterHost = args[3];
+//              int masterIp = Integer.parseInt(args[4]);
+//              redis.setMasterHost(masterHost);
+//              redis.setMasterIp(masterIp);
+//              redis.setRole("slave");
           }
       } else {
           Redis redis = new Redis();
@@ -63,7 +56,6 @@ public class Main {
 //      } finally {
 //          executorService.shutdown();
 //      }
-
   }
 
 //      public static void handle (Socket clientSocket){
