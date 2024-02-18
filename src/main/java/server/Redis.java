@@ -1,7 +1,6 @@
-import command.Echo;
-import command.Get;
-import command.Ping;
-import command.Set;
+package server;
+
+import command.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -9,20 +8,23 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Redis {
-
 
     int port;
     ExecutorService executorService;
     Map<String, String> cache = new HashMap<>();
     String role = "master";
     String masterHost;
+    String masterReplid;
+    int masterReplOffset = 0;
     int masterIp;
 
     public Redis( String[] args){
+        masterReplid = randomId();
         setArguments(args);
         startServer();
     }
@@ -49,14 +51,30 @@ public class Redis {
                     System.exit(1);
                 }
                 setRole("slave");
-
             }
         }
     }
 
     public Redis(){
+        masterReplid = randomId();
         this.port = 6379;
         startServer();
+    }
+
+    public int getPort(){
+        return this.port;
+    }
+
+    public String getRole(){
+        return this.role;
+    }
+
+    public String getMasterReplid() {
+        return this.masterReplid;
+    }
+
+    public int getMasterReplOffset(){
+        return this.masterReplOffset;
     }
 
     public void setRole(String role){
@@ -120,10 +138,7 @@ public class Redis {
                                 outputStream.write(new Get().print(inputs, cache));
                         case Constants.CMD_INFO ->{
                             if (inputs.get(3).equalsIgnoreCase("replication")){
-                                System.out.println("port: " + port + ", role: " + role);
-                                String r = "role:" + this.role;
-                                String output = "$"+r.length() + "\r\n" + r + "\r\n";
-                                outputStream.write(output.getBytes());
+                                outputStream.write(new Info(this).print(inputs,cache));
                             }
                         }
                     }
@@ -140,6 +155,15 @@ public class Redis {
                 System.out.println("could not close socket " + e.getMessage());
             }
         }
+
+    }
+
+    private String randomId(){
+        //32
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        String extra = "abcd1234";
+        return uuid + extra;
 
     }
 }

@@ -1,30 +1,16 @@
-import command.Echo;
-import command.Get;
-import command.Ping;
-import command.Set;
+import server.Redis;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Main {
     static Map<String, String> cache = new HashMap<>();
   public static void main(String[] args) {
 
       // You can use print statements as follows for debugging, they'll be visible when running tests.
-//      System.out.println("Logs from your program will appear here!");
-      System.out.println("args length: " + args.length);
-//      for (int i = 0; i < args.length; i++){
-//          System.out.println("value at " + i + " =" + args[i]);
-//      }
+      System.out.println("Logs from your program will appear here!");
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
-          System.out.println("jumping into here");
+//          System.out.println("jumping into here");
           Redis redis = new Redis(args);
       } else {
           Redis redis = new Redis();
