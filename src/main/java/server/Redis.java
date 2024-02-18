@@ -32,7 +32,6 @@ public class Redis {
     }
 
     private void setArguments(String[] args) {
-        if (args == null) return;
         for (int i = 0; i < args.length; i++){
             if (args[i].equals("--port")){
                 try{
@@ -159,7 +158,7 @@ public class Redis {
 
     }
 
-    private String randomId(){
+     String randomId(){
         //32
         String uuid = UUID.randomUUID().toString().replace("-", "");
 
