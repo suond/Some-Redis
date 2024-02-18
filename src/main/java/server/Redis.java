@@ -89,7 +89,7 @@ public class Redis {
         this.masterIp = ip;
     }
 
-    private void startServer(){
+     void startServer(){
         executorService = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(this.port)) {
             serverSocket.setReuseAddress(true);

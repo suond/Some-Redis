@@ -15,7 +15,7 @@ public class RedisReplica extends Redis{
     public RedisReplica(String[] args){
         masterReplid = super.randomId();
         setArguments(args);
-        startServer();
+        super.startServer();
     }
     void setArguments(String[] args){
         for (int i = 0; i < args.length; i++){
