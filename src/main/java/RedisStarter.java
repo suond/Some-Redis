@@ -27,6 +27,12 @@ public class RedisStarter {
 
         try{
             cmd = parsers.parse(options, args);
+            System.out.println("bool val: " + cmd.hasOption("port"));
+            if (cmd.hasOption("port")){
+                int p = Integer.parseInt(cmd.getOptionValue("port"));
+                System.out.println("port val is " + p);
+                server.setPort(p);
+            }
             if (cmd.hasOption("replicaof")){
                 server = new RedisSlave();
                 server.setRole("slave");
@@ -37,12 +43,7 @@ public class RedisStarter {
                 server = new RedisMaster();
                 server.setRole("master");
             }
-            System.out.println(cmd.hasOption("port"));
-            if (cmd.hasOption("port")){
-                int p = Integer.parseInt(cmd.getOptionValue("port"));
-                System.out.println("port val is " + p);
-                server.setPort(p);
-            }
+
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
