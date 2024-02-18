@@ -1,18 +1,41 @@
 package command;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Set implements Command{
+
+    private static final ExecutorService thread = Executors.newSingleThreadExecutor();
     @Override
-    public byte[] print(List<String> strings, Map<String, String> cache) {
-        String key = strings.get(3);
-        String value = strings.get(5);
+    public byte[] print(List<String> inputs, Map<String, String> cache) {
+        String key = inputs.get(3);
+        String value = inputs.get(5);
+
+        if (inputs.size() > 6){
+            //option = 7, duration = 9
+            String option = inputs.get(7);
+            if (option.toLowerCase().equals("px")){
+                System.out.println("Duration in ms: " + inputs.get(9));
+                Duration expiry = Duration.ofMillis(Long.parseLong(inputs.get(9)));
+
+                thread.execute(() -> removeKey(key,cache,expiry));
+            }
+        }
 
         cache.put(key, value);
-
         String result = "+OK\r\n";
-
         return result.getBytes();
+    }
+
+    private void removeKey(String key, Map<String,String> cache, Duration expiry){
+        try{
+            Thread.sleep(expiry);
+            cache.remove(key);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

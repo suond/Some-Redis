@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Get implements Command{
     @Override
-    public byte[] print(List<String> strings, Map<String, String> cache) {
-        String key = strings.get(3);
+    public byte[] print(List<String> inputs, Map<String, String> cache) {
+        String key = inputs.get(3);
 
         String value = cache.get(key);
 

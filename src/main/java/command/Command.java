@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface Command {
 
-    public byte[] print(List<String> strings, Map<String, String> cache);
+    public byte[] print(List<String> inputs, Map<String, String> cache);
 }
