@@ -13,11 +13,12 @@ public class Main {
       // You can use print statements as follows for debugging, they'll be visible when running tests.
       System.out.println("Logs from your program will appear here!");
 
-      if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
-          Redis redis = new Redis(args);
-      } else {
-          Redis redis = new Redis();
-      }
+//      if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
+//          Redis redis = new Redis(args);
+//      } else {
+//          Redis redis = new Redis();
+//      }
+      RedisStarter.start(args);
 
   }
 }
