@@ -20,9 +20,10 @@ public class Redis {
     Map<String, String> cache = new HashMap<>();
     String role = "master";
     String masterHost;
+    int masterIp;
     String masterReplid;
     int masterReplOffset = 0;
-    int masterIp;
+
 
     public Redis( String[] args){
         masterReplid = randomId();

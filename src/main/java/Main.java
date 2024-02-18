@@ -1,4 +1,5 @@
 import server.Redis;
+import server.RedisReplica;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +11,11 @@ public class Main {
       // You can use print statements as follows for debugging, they'll be visible when running tests.
       System.out.println("Logs from your program will appear here!");
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
-//          System.out.println("jumping into here");
-          Redis redis = new Redis(args);
+          if (args[2].equals("--replicaof")){
+              RedisReplica redis = new RedisReplica(args);
+          } else {
+            Redis redis = new Redis(args);
+          }
       } else {
           Redis redis = new Redis();
       }
