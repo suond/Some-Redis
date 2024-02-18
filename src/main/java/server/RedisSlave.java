@@ -14,7 +14,6 @@ public class RedisSlave extends Redis{
 
     public RedisSlave(){
         super();
-//        connectToMaster();
     }
 
     public void connectToMaster(){

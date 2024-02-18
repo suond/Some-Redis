@@ -13,7 +13,7 @@ public class RedisStarter {
                 .desc("redis's port")
                 .build();
         options.addOption(option);
-        option = Option.builder("replicaof")
+        option = Option.builder("replica")
                 .longOpt("replicaof")
                 .numberOfArgs(2)
                 .desc("server slave of appointed master and ip")
@@ -32,8 +32,11 @@ public class RedisStarter {
             if (cmd.hasOption("replicaof")) {
                 server = new RedisSlave();
                 server.setRole("slave");
-                String[] relicaofCmds = cmd.getOptionValues("replicaof");
-                server.setMasterHost(relicaofCmds[0]);
+                String[] replicaof = cmd.getOptionValues("replicaof");
+                for (String s: replicaof)
+                    System.out.println(s);
+                server.setMasterHost(replicaof[0]);
+                server.setMasterIp(Integer.parseInt(replicaof[1]));
                 ((RedisSlave)server).connectToMaster();
             } else {
                 server = new RedisMaster();
