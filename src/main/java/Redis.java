@@ -17,6 +17,7 @@ public class Redis {
     int port;
     ExecutorService executorService;
     Map<String, String> cache = new HashMap<>();
+    String role = "master";
 
     public Redis( int port){
         this.port = port;
@@ -76,6 +77,13 @@ public class Redis {
                                 outputStream.write(new Set().print(inputs, cache));
                         case Constants.CMD_GET ->
                                 outputStream.write(new Get().print(inputs, cache));
+                        case "info" ->{
+                            if (inputs.get(3).equalsIgnoreCase("replication")){
+                                String r = "role:" + this.role;
+                                String output = "$"+r.length() + "\r\n" + r + "\r\n";
+                                outputStream.write(output.getBytes());
+                            }
+                        }
                     }
                 }
 
