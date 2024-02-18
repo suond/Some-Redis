@@ -12,7 +12,9 @@ public class Main {
       System.out.println("Logs from your program will appear here!");
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
           if (args.length > 2 && args[2].equals("--replicaof")){
+              System.out.println("creating replica");
               RedisReplica redis = new RedisReplica(args);
+              redis.connectToMaster();
           } else {
             Redis redis = new Redis(args);
           }

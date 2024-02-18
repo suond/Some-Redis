@@ -17,6 +17,7 @@ public class RedisReplica extends Redis{
 
     public void connectToMaster(){
         try{
+            System.out.println("masterHost: " + this.masterHost + " , masterIp: " + this.masterIp);
             Socket mainSocket = new Socket(this.masterHost, this.masterIp);
             OutputStream writer = mainSocket.getOutputStream();
             String ping = "*1"+ Constants.R_N + "$4"+ Constants.R_N+ "PING" + Constants.R_N;
