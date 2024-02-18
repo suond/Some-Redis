@@ -25,6 +25,7 @@ public class Main {
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
           Redis redis = new Redis(Integer.parseInt(args[1]));
           if (args.length == 5 && "--replicaof".equalsIgnoreCase(args[2])){
+              System.out.println("inside slave replica");
               String masterHost = args[3];
               int masterIp = Integer.parseInt(args[4]);
               redis.setMasterHost(masterHost);

@@ -93,6 +93,7 @@ public class Redis {
                                 outputStream.write(new Get().print(inputs, cache));
                         case Constants.CMD_INFO ->{
                             if (inputs.get(3).equalsIgnoreCase("replication")){
+                                System.out.println("port: " + port + ", role: " + role);
                                 String r = "role:" + this.role;
                                 String output = "$"+r.length() + "\r\n" + r + "\r\n";
                                 outputStream.write(output.getBytes());
