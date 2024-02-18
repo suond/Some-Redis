@@ -72,14 +72,14 @@ public class Redis {
 
             String command;
             while ((command = reader.readLine()) != null) {
-                System.out.println("command: " + command);
+//                System.out.println("command: " + command);
                 if (command.startsWith("*")){
                     int numOfItems = Integer.parseInt(command.substring(1));
                     //0 = size of 1, 1 = cmd, 2 = size of 3, 3 = key/echo val, 4 = size of set, 5 = setVal
                     ArrayList<String> inputs = new ArrayList<>(numOfItems * 2);
                     for (int i =0; i < numOfItems * 2; i++){
                         inputs.add(reader.readLine());
-                        System.out.println("element " + i + " is: " + inputs.get(i));
+//                        System.out.println("element " + i + " is: " + inputs.get(i));
                     }
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {

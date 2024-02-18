@@ -18,13 +18,11 @@ public class Main {
   public static void main(String[] args) {
 
       // You can use print statements as follows for debugging, they'll be visible when running tests.
-      System.out.println("Logs from your program will appear here!");
-//      for (String s: args){
-//          System.out.println(s);
-//      }
+//      System.out.println("Logs from your program will appear here!");
+      System.out.println("args length: " + args.length);
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
           Redis redis = new Redis(Integer.parseInt(args[1]));
-          System.out.println("args length: " + args.length);
+
           if (args.length == 5 && "--replicaof".equalsIgnoreCase(args[2])){
               System.out.println("inside slave replica");
               String masterHost = args[3];
