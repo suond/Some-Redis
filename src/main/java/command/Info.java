@@ -17,7 +17,7 @@ public class Info implements Command{
         System.out.println("port: " + redis.getPort() + ", role: " + redis.getRole());
         String r = "role:" + redis.getRole() + "\r\n"
                 + "master_replid:" + redis.getMasterReplid() + "\r\n"
-                + "master_reol_offset:" + redis.getMasterReplOffset() + "\r\n";
+                + "master_repl_offset:" + redis.getMasterReplOffset() + "\r\n";
 //        String output = "$"+r.length() + "\r\n" + r + "\r\n"
         return bulk(r).getBytes();
     }
