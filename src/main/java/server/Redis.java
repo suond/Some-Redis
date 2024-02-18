@@ -92,7 +92,7 @@ public class Redis {
      void startServer(){
         executorService = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(this.port)) {
-            serverSocket.setReuseAddress(true);
+//            serverSocket.setReuseAddress(true);
 
             while (!serverSocket.isClosed()) {
                 try {
