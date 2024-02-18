@@ -7,14 +7,16 @@ public class RedisStarter {
 
     public static void start(String[] args){
         Options options = new Options();
-        Option option = Option.builder("p")
+        Option option = Option.builder("port")
                 .longOpt("port")
-                .numberOfArgs(1)
+                .hasArg()
+                .desc("redis's port")
                 .build();
         options.addOption(option);
-        option = Option.builder("replica")
+        option = Option.builder("replicaof")
                 .longOpt("replicaof")
                 .numberOfArgs(2)
+                .desc("server slave of appointed master and ip")
                 .build();
         options.addOption(option);
         parseAndStart(options, args);
