@@ -22,13 +22,42 @@ public class Redis {
     String masterHost;
     int masterIp;
 
-    public Redis( int port){
-        this.port = port;
+    public Redis( String[] args){
+
+//        this.port = Integer.parseInt(args[1]);
+        setArguments(args);
         startServer();
+    }
+
+    private void setArguments(String[] args) {
+        for (int i = 0; i < args.length; i++){
+            if (args[i].equals("--port")){
+                try{
+                    this.port = Integer.parseInt(args[i+1]);
+                } catch (NumberFormatException e){
+                    System.out.println("can't parse number");
+                    System.exit(1);
+                }
+            }
+            if (args[i].equals("--replicaof") && i+2 < args.length){
+                String masterHost = args[i+1];
+                setMasterHost(masterHost);
+                try{
+                    int masterIp = Integer.parseInt(args[i+2]);
+                    setMasterIp(masterIp);
+                } catch (NumberFormatException e){
+                    System.out.println("can't parse number");
+                    System.exit(1);
+                }
+                setRole("slave");
+
+            }
+        }
     }
 
     public Redis(){
         this.port = 6379;
+        setArguments(null);
         startServer();
     }
 

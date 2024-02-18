@@ -25,15 +25,7 @@ public class Main {
 //      }
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
           System.out.println("jumping into here");
-          Redis redis = new Redis(Integer.parseInt(args[1]));
-          if (true){
-              System.out.println("inside slave replica");
-//              String masterHost = args[3];
-//              int masterIp = Integer.parseInt(args[4]);
-//              redis.setMasterHost(masterHost);
-//              redis.setMasterIp(masterIp);
-//              redis.setRole("slave");
-          }
+          Redis redis = new Redis(args);
       } else {
           Redis redis = new Redis();
       }
