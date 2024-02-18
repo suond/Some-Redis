@@ -55,13 +55,13 @@ public class Main {
 //                      }
 //                      String cmd = inputs.get(1);
 //                      switch (cmd.toLowerCase()) {
-//                          case Constants.CMD_PING ->
+//                          case constants.Constants.CMD_PING ->
 //                              outputStream.write( new Ping().print(inputs, cache));
-//                          case Constants.CMD_ECHO ->
+//                          case constants.Constants.CMD_ECHO ->
 //                              outputStream.write( new Echo().print(inputs,cache));
-//                          case Constants.CMD_SET ->
+//                          case constants.Constants.CMD_SET ->
 //                              outputStream.write(new Set().print(inputs, cache));
-//                          case Constants.CMD_GET ->
+//                          case constants.Constants.CMD_GET ->
 //                              outputStream.write(new Get().print(inputs, cache));
 //                      }
 //                  }
