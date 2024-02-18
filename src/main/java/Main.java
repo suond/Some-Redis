@@ -20,6 +20,9 @@ public class Main {
       // You can use print statements as follows for debugging, they'll be visible when running tests.
 //      System.out.println("Logs from your program will appear here!");
       System.out.println("args length: " + args.length);
+      for (int i = 0; i < args.length; i++){
+          System.out.println("value at " + i + " =" + args[i]);
+      }
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
           Redis redis = new Redis(Integer.parseInt(args[1]));
 
