@@ -14,7 +14,7 @@ public class Main {
       System.out.println("Logs from your program will appear here!");
 
       if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
-              Redis redis = new Redis(args);
+          Redis redis = new Redis(args);
       } else {
           Redis redis = new Redis();
       }

@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 public class Redis {
 
-    int port;
+    int port = 6379;
     ExecutorService executorService;
     Map<String, String> cache = new HashMap<>();
     String role = "master";
@@ -26,35 +26,35 @@ public class Redis {
 
 
     public Redis( String[] args){
-        masterReplid = randomId();
-        setArguments(args);
-        startServer();
+//        masterReplid = randomId();
+//        setArguments(args);
+//        startServer();
     }
 
-    private void setArguments(String[] args) {
-        for (int i = 0; i < args.length; i++){
-            if (args[i].equals("--port")){
-                try{
-                    this.port = Integer.parseInt(args[i+1]);
-                } catch (NumberFormatException e){
-                    System.out.println("can't parse number");
-                    System.exit(1);
-                }
-            }
-            if (args[i].equals("--replicaof") && i+2 < args.length){
-                String masterHost = args[i+1];
-                setMasterHost(masterHost);
-                try{
-                    int masterIp = Integer.parseInt(args[i+2]);
-                    setMasterIp(masterIp);
-                } catch (NumberFormatException e){
-                    System.out.println("can't parse number");
-                    System.exit(1);
-                }
-                setRole("slave");
-            }
-        }
-    }
+//    private void setArguments(String[] args) {
+//        for (int i = 0; i < args.length; i++){
+//            if (args[i].equals("--port")){
+//                try{
+//                    this.port = Integer.parseInt(args[i+1]);
+//                } catch (NumberFormatException e){
+//                    System.out.println("can't parse number");
+//                    System.exit(1);
+//                }
+//            }
+//            if (args[i].equals("--replicaof") && i+2 < args.length){
+//                String masterHost = args[i+1];
+//                setMasterHost(masterHost);
+//                try{
+//                    int masterIp = Integer.parseInt(args[i+2]);
+//                    setMasterIp(masterIp);
+//                } catch (NumberFormatException e){
+//                    System.out.println("can't parse number");
+//                    System.exit(1);
+//                }
+//                setRole("slave");
+//            }
+//        }
+//    }
 
     public Redis(){
         masterReplid = randomId();
@@ -65,6 +65,7 @@ public class Redis {
     public int getPort(){
         return this.port;
     }
+    public void setPort(int port){this.port = port;}
 
     public String getRole(){
         return this.role;
@@ -89,7 +90,7 @@ public class Redis {
         this.masterIp = ip;
     }
 
-     void startServer(){
+     public void startServer(){
         executorService = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(this.port)) {
             serverSocket.setReuseAddress(true);
@@ -149,7 +150,6 @@ public class Redis {
             System.out.println("Issue occurred in handle " + e.getMessage());
         } finally {
             try {
-
                 clientSocket.close();
             } catch (IOException e){
                 System.out.println("could not close socket " + e.getMessage());
@@ -161,7 +161,6 @@ public class Redis {
      String randomId(){
         //32
         String uuid = UUID.randomUUID().toString().replace("-", "");
-
         String extra = "abcd1234";
         return uuid + extra;
 
