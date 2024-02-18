@@ -14,9 +14,11 @@ public class RedisSlave extends Redis{
 
     public RedisSlave(){
         super();
+//        connectToMaster();
     }
 
     public void connectToMaster(){
+        System.out.println(String.format("value of masterHost: %s, value of masterip: %s", masterHost,masterIp));
         try{
             Socket masterSocket = new Socket(this.masterHost, this.masterIp);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()));

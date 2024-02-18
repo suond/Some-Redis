@@ -39,7 +39,6 @@ public class RedisStarter {
                 server = new RedisMaster();
                 server.setRole("master");
             }
-            System.out.println("bool val: " + cmd.hasOption("port"));
             if (cmd.hasOption("port")){
                 int p = Integer.parseInt(cmd.getOptionValue("port"));
                 System.out.println("port val is " + p);
