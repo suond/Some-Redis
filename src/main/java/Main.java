@@ -22,8 +22,15 @@ public class Main {
 //      for (String s: args){
 //          System.out.println(s);
 //      }
-      if (args.length == 2){
+      if (args.length > 1 && args[0].equalsIgnoreCase("--port")){
           Redis redis = new Redis(Integer.parseInt(args[1]));
+          if (args.length == 5 && "--replicaof".equalsIgnoreCase(args[2])){
+              String masterHost = args[3];
+              int masterIp = Integer.parseInt(args[4]);
+              redis.setMasterHost(masterHost);
+              redis.setMasterIp(masterIp);
+              redis.setRole("slave");
+          }
       } else {
           Redis redis = new Redis();
       }
