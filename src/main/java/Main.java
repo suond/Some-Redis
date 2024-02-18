@@ -19,8 +19,11 @@ public class Main {
 
       // You can use print statements as follows for debugging, they'll be visible when running tests.
       System.out.println("Logs from your program will appear here!");
-      for (String s: args){
-          System.out.println(s);
+//      for (String s: args){
+//          System.out.println(s);
+//      }
+      if (args.length == 2){
+          Redis redis = new Redis(Integer.parseInt(args[1]));
       }
       ExecutorService executorService = Executors.newCachedThreadPool();
 
