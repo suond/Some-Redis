@@ -14,7 +14,7 @@ public class Main {
           if (args.length > 2 && args[2].equals("--replicaof")){
               System.out.println("creating replica");
               RedisReplica redis = new RedisReplica(args);
-              redis.connectToMaster();
+//              redis.connectToMaster();
           } else {
             Redis redis = new Redis(args);
           }

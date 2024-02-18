@@ -13,6 +13,7 @@ public class RedisReplica extends Redis{
 
     public RedisReplica(String[] args){
         super(args);
+        connectToMaster();
     }
 
     public void connectToMaster(){

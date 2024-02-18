@@ -115,7 +115,6 @@ public class Redis {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             OutputStream outputStream = clientSocket.getOutputStream();
-//              PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
 
             String command;
             while ((command = reader.readLine()) != null) {
