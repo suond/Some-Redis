@@ -19,6 +19,9 @@ public class Main {
 
       // You can use print statements as follows for debugging, they'll be visible when running tests.
       System.out.println("Logs from your program will appear here!");
+      for (String s: args){
+          System.out.println(s);
+      }
       ExecutorService executorService = Executors.newCachedThreadPool();
 
       final int port = 6379;
