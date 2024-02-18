@@ -8,7 +8,7 @@ import java.util.Map;
 public class Info implements Command{
 
     Redis redis;
-    Info (Redis redis){
+    public Info (Redis redis){
         this.redis = redis;
     }
 
