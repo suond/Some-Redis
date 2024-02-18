@@ -38,7 +38,9 @@ public class RedisStarter {
                 server.setRole("master");
             }
             if (cmd.hasOption("port")){
-                server.setPort(Integer.parseInt(cmd.getOptionValue("port")));
+                int p = Integer.parseInt(cmd.getOptionValue("port"));
+                System.out.println("port val is " + p);
+                server.setPort(p);
             }
         } catch (ParseException e) {
             throw new RuntimeException(e);
