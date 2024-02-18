@@ -25,7 +25,7 @@ public class Redis {
 
     public Redis(){
         this.port = 6379;
-        executorService = Executors.newCachedThreadPool();
+        startServer();
     }
 
     private void startServer(){
@@ -57,6 +57,7 @@ public class Redis {
 
             String command;
             while ((command = reader.readLine()) != null) {
+                System.out.println("command: " + command);
                 if (command.startsWith("*")){
                     int numOfItems = Integer.parseInt(command.substring(1));
                     //0 = size of 1, 1 = cmd, 2 = size of 3, 3 = key/echo val, 4 = size of set, 5 = setVal
