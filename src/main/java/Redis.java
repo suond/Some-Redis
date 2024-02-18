@@ -23,13 +23,12 @@ public class Redis {
     int masterIp;
 
     public Redis( String[] args){
-
-//        this.port = Integer.parseInt(args[1]);
         setArguments(args);
         startServer();
     }
 
     private void setArguments(String[] args) {
+        if (args == null) return;
         for (int i = 0; i < args.length; i++){
             if (args[i].equals("--port")){
                 try{
@@ -57,7 +56,6 @@ public class Redis {
 
     public Redis(){
         this.port = 6379;
-        setArguments(null);
         startServer();
     }
 
