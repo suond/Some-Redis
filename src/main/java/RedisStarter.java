@@ -30,13 +30,14 @@ public class RedisStarter {
         try{
             cmd = parsers.parse(options, args);
             if (cmd.hasOption("replicaof")) {
+                System.out.println("going into replicaof");
                 server = new RedisSlave();
                 server.setRole("slave");
                 String[] replicaof = cmd.getOptionValues("replicaof");
                 for (String s: replicaof)
                     System.out.println(s);
-                server.setMasterHost(replicaof[0]);
-                server.setMasterIp(Integer.parseInt(replicaof[1]));
+                ((RedisSlave)server).setMasterHost(replicaof[0]);
+                ((RedisSlave)server).setMasterPort(Integer.parseInt(replicaof[1]));
                 ((RedisSlave)server).connectToMaster();
             } else {
                 server = new RedisMaster();

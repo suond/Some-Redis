@@ -20,7 +20,7 @@ public class Redis {
     Map<String, String> cache = new HashMap<>();
     String role = "master";
     String masterHost;
-    int masterIp;
+    int masterPort;
     String masterReplid;
     int masterReplOffset = 0;
 
@@ -86,8 +86,8 @@ public class Redis {
     public void setMasterHost(String masterHost){
         this.masterHost = masterHost;
     }
-    public void setMasterIp(int ip){
-        this.masterIp = ip;
+    public void setMasterPort(int ip){
+        this.masterPort = ip;
     }
 
      public void startServer(){
