@@ -19,8 +19,8 @@ public class Redis {
     ExecutorService executorService;
     Map<String, String> cache = new HashMap<>();
     String role = "master";
-    String masterHost;
-    int masterPort;
+//    String masterHost;
+//    int masterPort;
     String masterReplid;
     int masterReplOffset = 0;
 
@@ -81,13 +81,6 @@ public class Redis {
 
     public void setRole(String role){
         this.role = role;
-    }
-
-    public void setMasterHost(String masterHost){
-        this.masterHost = masterHost;
-    }
-    public void setMasterPort(int ip){
-        this.masterPort = ip;
     }
 
      public void startServer(){
