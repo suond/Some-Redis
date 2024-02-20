@@ -98,6 +98,20 @@ public class RedisMaster extends Redis{
                         }
                         case "config" -> {
                             System.out.println("going into here");
+                            if (inputs.get(3).equalsIgnoreCase("get")){
+                                String print = "*2\r\n";
+                                if(inputs.get(5).toLowerCase().equals("dir")){
+                                    String dirName = inputs.get(7);
+                                    print += String.format("$3\r\ndir\r\n$%s\r\n%s\r\n",dirName.length(), dirName );
+                                    outputStream.write(print.getBytes());
+                                    outputStream.flush();
+                                } else if (inputs.get(5).toLowerCase().equals("dbfilename")) {
+                                    String dirName = inputs.get(7);
+                                    print += String.format("$10\r\ndbfilename\r\n$%s\r\n%s\r\n",dirName.length(), dirName );
+                                    outputStream.write(print.getBytes());
+                                    outputStream.flush();
+                                }
+                            }
                         }
                     }
                 }
