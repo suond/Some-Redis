@@ -59,7 +59,7 @@ public class RedisMaster extends Redis{
                             outputStream.write(new ReplConf().print(inputs,cache));
                         case Constants.CMD_PSYNC -> {
                             String output = String.format(
-                                    "FULLSYNC %s %s%s", this.masterReplid, this.masterReplOffset, Constants.R_N
+                                    "+FULLSYNC %s %s%s", this.masterReplid, this.masterReplOffset, Constants.R_N
                             );
                             outputStream.write(output.getBytes());
                         }
