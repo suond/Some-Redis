@@ -1,5 +1,7 @@
 package command;
 
+import server.Redis;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,11 @@ public class Set implements Command{
         cache.put(key, value);
         String result = "+OK\r\n";
         return result.getBytes();
+    }
+
+    public byte[] print (Redis redis, List<String> inputs, Map<String, String> cache){
+        System.out.println("Role of calling redis type: " + redis.getRole());
+        return print(inputs, cache);
     }
 
     private void removeKey(String key, Map<String,String> cache, Duration expiry){
