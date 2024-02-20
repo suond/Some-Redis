@@ -78,6 +78,7 @@ public class RedisMaster extends Redis{
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
                         case Constants.CMD_SET ->{
+                            System.out.println("entering in replica SET in REDIS MASTER master class");
                             outputStream.write(new Set().print(inputs, cache));
                             sendToReplicas(inputs);    
                         }
