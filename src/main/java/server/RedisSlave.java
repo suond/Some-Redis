@@ -64,7 +64,7 @@ public class RedisSlave extends Redis{
             writer.print(replCmd2);
             writer.print(psyncCmd);
             writer.flush();
-            System.out.println("master socket info in connect to master:" + masterSocket);
+//            System.out.println("master socket info in connect to master:" + masterSocket);
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

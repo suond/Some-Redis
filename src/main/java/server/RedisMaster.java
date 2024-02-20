@@ -71,8 +71,10 @@ public class RedisMaster extends Redis{
                     }
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
-                        case Constants.CMD_PING ->
+                        case Constants.CMD_PING ->{
                                 outputStream.write( new Ping().print(inputs, cache));
+                            System.out.println("Client socket in ping: " + clientSocket);
+                        }
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
                         case Constants.CMD_SET ->{
@@ -101,12 +103,12 @@ public class RedisMaster extends Redis{
         } catch (Exception e) {
             System.out.println("Issue occurred in handle " + e.getMessage());
         } finally {
-//            try {
-//                clientSocket.close();
-//            } catch (IOException e){
-//                System.out.println("could not close socket " + e.getMessage());
-//            }
-            System.out.println("DONE");
+            try {
+                clientSocket.close();
+            } catch (IOException e){
+                System.out.println("could not close socket " + e.getMessage());
+            }
+            System.out.println("DONE in handle");
         }
 
     }
