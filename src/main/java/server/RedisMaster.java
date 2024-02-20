@@ -40,9 +40,9 @@ public class RedisMaster extends Redis{
                     final Socket clientSocket = serverSocket.accept();
 //                    System.out.println("clientSocket in redis master startServer: " + clientSocket.toString());
                     executorService.execute(() -> {
-                    handleClient(clientSocket);
-                    handle(clientSocket));
-                    }
+                        handleClient(clientSocket);
+                        handle(clientSocket);
+                    });
                 } catch (Exception e) {
                     System.out.println("IOException: " + e.getMessage());
                 }
@@ -76,7 +76,7 @@ public class RedisMaster extends Redis{
 
     private void handleCommands(ArrayList<String> commandArray, Socket clientSocket) {
         int commandLength = Integer.parseInt(commandArray.getFirst().substring(1));
-        int counter = 0
+        int counter = 0;
         for (String s: commandArray){
             System.out.println(counter + ": " + s);
             counter++;
