@@ -104,12 +104,12 @@ public class RedisMaster extends Redis{
                                     String dirName = inputs.get(7);
                                     print += String.format("$3\r\ndir\r\n$%s\r\n%s\r\n",dirName.length(), dirName );
                                     outputStream.write(print.getBytes());
-                                    outputStream.flush();
+//                                    outputStream.flush();
                                 } else if (inputs.get(5).toLowerCase().equals("dbfilename")) {
                                     String dirName = inputs.get(7);
-                                    print += String.format("$10\r\ndbfilename\r\n$%s\r\n%s\r\n",dirName.length(), dirName );
+                                    print += String.format("$10\r\ndbfilename\r\n$%s\r\n%s\r\n",dirName.length(), dirName);
                                     outputStream.write(print.getBytes());
-                                    outputStream.flush();
+//                                    outputStream.flush();
                                 }
                             }
                         }
