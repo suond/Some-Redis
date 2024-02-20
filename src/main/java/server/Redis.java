@@ -87,8 +87,10 @@ public class Redis {
                                 outputStream.write( new Ping().print(inputs, cache));
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
-                        case Constants.CMD_SET ->
-                                outputStream.write(new Set().print(inputs, cache));
+                        case Constants.CMD_SET ->{
+                            System.out.println("entering in replica SET");
+                            outputStream.write(new Set().print(inputs, cache));
+                        }
                         case Constants.CMD_GET ->
                                 outputStream.write(new Get().print(inputs, cache));
                         case Constants.CMD_INFO ->{
