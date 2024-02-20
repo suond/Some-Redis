@@ -51,6 +51,7 @@ public class RedisSlave extends Redis{
     }
     @Override
     void handle (Socket clientSocket){
+        System.out.println("Here?");
         try (InputStream inputStream = clientSocket.getInputStream()){
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -69,7 +70,7 @@ public class RedisSlave extends Redis{
                     for (int i =0; i < numOfItems * 2; i++){
                         inputs.add(reader.readLine());
                     }
-                    System.out.println("Here?");
+//                    System.out.println("Here?");
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
                         case Constants.CMD_PING ->
