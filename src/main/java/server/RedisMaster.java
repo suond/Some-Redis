@@ -96,6 +96,9 @@ public class RedisMaster extends Redis{
                             sendRDBFile(outputStream);
                             replicaSockets.add(clientSocket);
                         }
+                        case "config" -> {
+                            System.out.println("going into here");
+                        }
                     }
                 }
                 outputStream.flush();
