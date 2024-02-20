@@ -37,7 +37,7 @@ public class RedisSlave extends Redis{
             while (!serverSocket.isClosed()) {
                 try {
                     final Socket clientSocket = serverSocket.accept();
-                    System.out.println("client info in redis slave startServer: " + clientSocket.toString());
+//                    System.out.println("client info in redis slave startServer: " + clientSocket.toString());
                     executorService.execute(() -> handle(clientSocket));
                 } catch (Exception e) {
                     System.out.println("IOException: " + e.getMessage());
@@ -59,7 +59,7 @@ public class RedisSlave extends Redis{
             String command;
 
             while ((command = reader.readLine()) != null) {
-                System.out.println("role: "+ role + " ," +  command);
+//                System.out.println("role: "+ role + " ," +  command);
 //                System.out.println("command: " + command);
                 String f = String.format("role is %s, command is %s", this.role, command);
                 System.out.println(f);
@@ -103,8 +103,8 @@ public class RedisSlave extends Redis{
     }
 
     public void connectToMaster(){
-        System.out.println(
-                String.format("value of masterHost: %s, value of masterip: %s", masterHost,masterPort));
+//        System.out.println(
+//                String.format("connect to Master: value of masterHost: %s, value of masterip: %s", masterHost,masterPort));
         try{
             Socket masterSocket = new Socket(this.masterHost, this.masterPort);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()));
@@ -117,7 +117,7 @@ public class RedisSlave extends Redis{
             writer.print(replCmd2);
             writer.print(psyncCmd);
             writer.flush();
-            System.out.println("master socket info in connect to master:" + masterSocket);
+//            System.out.println("master socket info in connect to master:" + masterSocket);
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
