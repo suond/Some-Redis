@@ -5,8 +5,10 @@ import utils.Utils;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.Executors;
 
 public class RedisSlave extends Redis{
     String masterHost;
@@ -24,6 +26,27 @@ public class RedisSlave extends Redis{
 
     public void setMasterPort(int MasterPort){
         this.masterPort = MasterPort;
+    }
+    @Override
+    public void startServer(){
+        executorService = Executors.newCachedThreadPool();
+        try(ServerSocket serverSocket = new ServerSocket(this.port)) {
+            serverSocket.setReuseAddress(true);
+
+            while (!serverSocket.isClosed()) {
+                try {
+                    final Socket clientSocket = serverSocket.accept();
+                    System.out.println("client info in redis slave startServer: " + clientSocket.toString());
+                    executorService.execute(() -> handle(clientSocket));
+                } catch (Exception e) {
+                    System.out.println("IOException: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+        } finally {
+            executorService.shutdown();
+        }
     }
 
     public void connectToMaster(){
