@@ -127,9 +127,9 @@ public class RedisMaster extends Redis{
                     if (s.startsWith("$")){
                         continue;
                     }
-                    pw.println("SET\r\n");
+                    pw.print(s+"\r\n");
                 }
-
+                pw.flush();
             } catch (IOException e) {
                 throw new RuntimeException("Issue in send replicas: " + e);
             }
