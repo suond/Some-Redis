@@ -115,8 +115,6 @@ public class RedisMaster extends Redis{
     private void sendToReplicas(ArrayList<String> inputs) {
 
         for (Socket socket: replicaSockets){
-//            System.out.println(socket.toString());
-//            System.out.println("clientSocket in sendToReplica: " + socket.toString());
             try{
                 OutputStream outputStream = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outputStream, true);
