@@ -53,15 +53,12 @@ public class RedisSlave extends Redis{
     }
 
     public void listenToMaster() throws IOException{
-        System.out.println("going into here");
         executorService.execute( () ->{
             try{
                 InputStream is = masterSocket.getInputStream();
                 int ch;
-                System.out.println("going into here--try");
 
                 while ( (ch = is.read()) != -1 ){
-                    System.out.println("going into here--try-while");
 
                     int nextCharacter = is.read() - 48;
 
@@ -85,7 +82,6 @@ public class RedisSlave extends Redis{
                         commandArray.add(sb.toString());
                         arrayLength--;
                     }
-                    System.out.println("size of command array: "+ commandArray.size());
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -111,8 +107,6 @@ public class RedisSlave extends Redis{
                     for (int i =0; i < numOfItems * 2; i++){
                         inputs.add(reader.readLine());
                     }
-                    System.out.println("inputs for slave, size of input is: " + inputs.size());
-//                    inputs.stream().forEach(System.out::println);
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
                         case Constants.CMD_PING ->
@@ -125,11 +119,6 @@ public class RedisSlave extends Redis{
                         }
                         case Constants.CMD_GET ->{
                             System.out.println(cache.keySet().size());
-//                            System.out.println("does it go into here?");
-//                            for (String key: cache.keySet()){
-//                                String a = cache.get(key);
-//                                System.out.println("value of a is: " + a);
-//                            }
                             outputStream.write(new Get().printWithLoggingType(this,inputs, cache));
                         }
 
@@ -154,8 +143,6 @@ public class RedisSlave extends Redis{
     }
 
     public void connectToMaster(){
-//        System.out.println(
-//                String.format("connect to Master: value of masterHost: %s, value of masterip: %s", masterHost,masterPort));
         try{
             masterSocket = new Socket(this.masterHost, this.masterPort);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()));

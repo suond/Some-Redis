@@ -6,6 +6,9 @@ import constants.Constants;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -75,11 +78,9 @@ public class RedisMaster extends Redis{
 
                 if (command.startsWith("*")){
                     int numOfItems = Integer.parseInt(command.substring(1));
-                    //0 = size of 1, 1 = cmd, 2 = size of 3, 3 = key/echo val, 4 = size of set, 5 = setVal
                     ArrayList<String> inputs = new ArrayList<>(numOfItems * 2);
                     for (int i =0; i < numOfItems * 2; i++){
                         inputs.add(reader.readLine());
-//                        System.out.println("element " + i + " is: " + inputs.get(i));
                     }
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
@@ -107,8 +108,6 @@ public class RedisMaster extends Redis{
                             replicaSockets.add(clientSocket);
                         }
                         case "config" -> {
-                            System.out.println("going into here");
-                            System.out.println(inputs);
                             if (inputs.get(3).equalsIgnoreCase("get")){
                                 String print = "*2\r\n";
                                 if(inputs.get(5).toLowerCase().equals("dir")){
@@ -121,14 +120,11 @@ public class RedisMaster extends Redis{
                             }
                         }
                         case "keys" -> {
-//                            System.out.println(inputs);
                             if (inputs.get(3).equals("*")){
-                                System.out.println("HERE");
-                                InputStream fileInputStream = new FileInputStream(this.dbFile);
-                                int read;
-                                while ( (read = fileInputStream.read()) != -1){
-                                    System.out.println("read value: " + read);
-                                }
+                                byte[] bytes = Files.readAllBytes(Path.of(dir, dbname));
+                                String str = new String(bytes);
+                                ByteBuffer buffer = ByteBuffer.wrap(bytes);
+
                             }
                         }
                     }
@@ -154,12 +150,9 @@ public class RedisMaster extends Redis{
                 OutputStream outputStream = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outputStream, true);
                 int arraySize=inputs.size() / 2;
-//                System.out.println(arraySize);
-                //this line wasted 4 hours of my time
                 String first = "*"+Integer.toString(arraySize) + "\r\n";
                 pw.print(first);
                 for (String s: inputs){
-//
 //                  pw.println("*3\r\n$3\r\nset\r\n$3\r\nfoo\r\n$3\r\n123\r\n");
                     pw.print(s+"\r\n");
                 }

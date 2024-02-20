@@ -88,7 +88,6 @@ public class Redis {
 
             String command;
             while ((command = reader.readLine()) != null) {
-//                System.out.println("command: " + command);
                 String f = String.format("role is %s, command is %s", this.role, command);
                 System.out.println(f);
                 if (command.startsWith("*")){
