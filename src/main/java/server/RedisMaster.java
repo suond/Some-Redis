@@ -39,7 +39,10 @@ public class RedisMaster extends Redis{
                 try {
                     final Socket clientSocket = serverSocket.accept();
 //                    System.out.println("clientSocket in redis master startServer: " + clientSocket.toString());
-                    executorService.execute(() -> handle(clientSocket));
+                    executorService.execute(() -> {
+                    handleClient(clientSocket);
+                    handle(clientSocket));
+                    }
                 } catch (Exception e) {
                     System.out.println("IOException: " + e.getMessage());
                 }
@@ -49,6 +52,43 @@ public class RedisMaster extends Redis{
         } finally {
             executorService.shutdown();
         }
+    }
+
+    public void handleClient(Socket clientSocket){
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            String line;
+            ArrayList<String> commandArray = new ArrayList<>();
+            int commandLength = 0;
+            while ((line = reader.readLine()) != null){
+                commandArray.add(line);
+                if(commandArray.size() == 1){
+                    commandLength = Integer.parseInt(commandArray.getFirst().substring(1))*2+1;
+                } else if(commandArray.size() == commandLength){
+                    handleCommands(commandArray, clientSocket);
+                    commandArray.clear();
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void handleCommands(ArrayList<String> commandArray, Socket clientSocket) {
+        int commandLength = Integer.parseInt(commandArray.getFirst().substring(1));
+        int counter = 0
+        for (String s: commandArray){
+            System.out.println(counter + ": " + s);
+            counter++;
+        }
+//        OutputStream os = clientSocket.getOutputStream();
+//        PrintWriter pw = new PrintWriter(os, true);
+//        String command = commandArray.get(2);
+//        switch (command.toLowerCase()){
+//            case ping: {
+//
+//            }
+//        }
     }
 
     @Override
