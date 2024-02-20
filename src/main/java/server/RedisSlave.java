@@ -78,8 +78,6 @@ public class RedisSlave extends Redis{
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
                         case Constants.CMD_SET ->{
-                            Thread.sleep(1000);
-
                             outputStream.write(new Set().print(this, inputs, cache));
                         }
                         case Constants.CMD_GET ->

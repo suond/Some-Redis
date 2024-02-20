@@ -127,7 +127,7 @@ public class RedisMaster extends Redis{
 //                        continue;
 //                    }
 //                    pw.println("*3\r\n$3\r\nset\r\n$3\r\nfoo\r\n$3\r\n123\r\n");
-                    pw.print("$3\r\nSET\r\n");
+                    pw.print("+OK\r\n");
                 }
                 pw.flush();
             } catch (IOException e) {
