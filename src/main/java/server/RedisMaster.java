@@ -97,8 +97,7 @@ public class RedisMaster extends Redis{
                     System.out.println("sending this to socket "+ s);
                     pw.print(s);
                 }
-//                pw.flush();
-//                pw.print("i'm 10 years old");
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
