@@ -36,7 +36,11 @@ public class RedisStarter {
                 String[] replicaof = cmd.getOptionValues("replicaof");
 //                for (String s: replicaof)
 //                    System.out.println(s);
-                ((RedisSlave)server).setMasterHost(replicaof[0]);
+                if (replicaof[0].equals("localhost")){
+                    ((RedisSlave)server).setMasterHost("127.0.0.1");
+                } else {
+                    ((RedisSlave)server).setMasterHost(replicaof[0]);
+                }
                 ((RedisSlave)server).setMasterPort(Integer.parseInt(replicaof[1]));
 //                ((RedisSlave)server).connectToMaster();
             } else {
