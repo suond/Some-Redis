@@ -130,7 +130,7 @@ public class RedisMaster extends Redis{
                 int arraySize=inputs.size() / 2;
 //                System.out.println(arraySize);
                 //this line wasted 4 hours of my time
-                String first = Integer.toString(arraySize) + "\r\n";
+                String first = "*"+Integer.toString(arraySize) + "\r\n";
                 System.out.println("arraySize = " + arraySize + ", the string to print: " + first);
                 System.out.println("*3\r\n");
                 pw.print(first);
