@@ -126,8 +126,7 @@ public class RedisMaster extends Redis{
                     if (s.startsWith("$")){
                         continue;
                     }
-//                    System.out.println("sending this to socket "+ s);
-                    pw.print(s+"\r\n");
+                    pw.print("SET foo 123");
                 }
 
             } catch (IOException e) {
