@@ -6,6 +6,7 @@ import constants.Constants;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.UUID;
 
 public class RedisMaster extends Redis{
@@ -62,6 +63,7 @@ public class RedisMaster extends Redis{
                                     "+FULLRESYNC %s %s%s", this.masterReplid, this.masterReplOffset, Constants.R_N
                             );
                             outputStream.write(output.getBytes());
+                            sendRDBFile(outputStream);
                         }
                     }
                 }
@@ -77,5 +79,18 @@ public class RedisMaster extends Redis{
             }
         }
 
+    }
+
+    private void sendRDBFile(OutputStream outputStream){
+
+        byte[] decoded_db = Base64.getDecoder().decode(Constants.EMPTY_DB);
+        String prefix = "$" + decoded_db.length + Constants.R_N;
+        byte[] prefixBytes = prefix.getBytes();
+        try {
+            outputStream.write(prefixBytes);
+            outputStream.write(decoded_db);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
