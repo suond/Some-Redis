@@ -6,10 +6,12 @@ import constants.Constants;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class RedisMaster extends Redis{
@@ -41,7 +43,7 @@ public class RedisMaster extends Redis{
 //                    System.out.println("clientSocket in redis master startServer: " + clientSocket.toString());
                     executorService.execute(() -> {
                         handleClient(clientSocket);
-                        handle(clientSocket);
+//                        handle(clientSocket);
                     });
                 } catch (Exception e) {
                     System.out.println("IOException: " + e.getMessage());
@@ -74,21 +76,87 @@ public class RedisMaster extends Redis{
         }
     }
 
-    private void handleCommands(ArrayList<String> commandArray, Socket clientSocket) {
+    private void handleCommands(ArrayList<String> commandArray, Socket clientSocket) throws IOException {
+        // 0=*N, 1=$S, 2=CMD/SET/GET, 3="$S, 4=KEY 5=$S 6=VAL 7=$S 8=px 9=$S 10=$milli
         int commandLength = Integer.parseInt(commandArray.getFirst().substring(1));
-        int counter = 0;
-        for (String s: commandArray){
-            System.out.println(counter + ": " + s);
-            counter++;
+
+        OutputStream os = clientSocket.getOutputStream();
+        PrintWriter writer = new PrintWriter(os, true);
+        String command = commandArray.get(2);
+        switch (command.toLowerCase()){
+            case "ping":
+                writer.print("+PONG\r\n");
+                writer.flush();
+                break;
+            case "echo":
+                String word = commandArray.get(4);
+                writer.print("$"+word.length()+"\r\n"+word+"\r\n");
+                break;
+            case "set":
+                if(commandLength==3) {
+//                    handleSet(commandArray.get(4), commandArray.get(6), writer);
+                    cache.put(commandArray.get(4), commandArray.get(6));
+                    writer.print("+OK\r\n");
+                    writer.flush();
+                }else if(commandLength==5){
+                    if(commandArray.get(8).equalsIgnoreCase("px")){
+//                        handleSetWithExpiry(commandArray.get(4), commandArray.get(6), commandArray.get(10), writer);
+                        Duration expiry = Duration.ofMillis(Long.parseLong(commandArray.get(10)));
+                        ExecutorService thread = Executors.newSingleThreadExecutor();
+                        thread.execute(() -> {
+                            try{
+                                Thread.sleep(expiry);
+                                cache.remove(commandArray.get(4));
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        writer.print("+OK\r\n");
+                        writer.flush();
+                    }
+                }else{
+                    writer.print("-ERR syntax error\r\n");
+                    writer.flush();
+                }
+                sendToReplicas(commandArray);
+                break;
+            case "get":
+//                handleGet(commandArray.get(4), writer);
+                String key = commandArray.get(4);
+                String value = cache.get(key);
+                String result = value == null ? "$-1\r\n" : "+" + value + "\r\n";
+                writer.print(result);
+                writer.flush();
+                break;
+            case "info":
+                if(commandArray.get(4).equalsIgnoreCase("replication")){
+//                    handleInfo(writer);
+                    StringBuilder response = new StringBuilder();
+                    response.append(String.format("role:%s\r\n", role));
+                    response.append(String.format("master_replid:%s\r\n", masterReplid));
+                    response.append(String.format("master_repl_offset:%s\r\n", masterReplOffset));
+                    String info = response.toString();
+                    writer.print("$"+info.length()+"\r\n" + info + "\r\n");
+                    writer.flush();
+                }
+                else{
+                    writer.print("-ERR unknown subcommand or wrong number of arguments for 'info'\r\n");
+                    writer.flush();
+                }
+                break;
+            case "replconf":
+                writer.print("+OK\r\n");
+                writer.flush();
+                break;
+            case "psync":{
+                writer.print(String.format("+FULLRESYNC %s %s\r\n", masterReplid, masterReplOffset));
+                writer.flush();
+            }
+            default:
+                writer.print("-ERR unknown command '"+command+"'\r\n");
+                writer.flush();
+                break;
         }
-//        OutputStream os = clientSocket.getOutputStream();
-//        PrintWriter pw = new PrintWriter(os, true);
-//        String command = commandArray.get(2);
-//        switch (command.toLowerCase()){
-//            case ping: {
-//
-//            }
-//        }
     }
 
     @Override
