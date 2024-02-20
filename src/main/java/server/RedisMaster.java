@@ -118,8 +118,7 @@ public class RedisMaster extends Redis{
 
         for (Socket socket: replicaSockets){
 //            System.out.println(socket.toString());
-            System.out.println("clientSocket in sendToReplica: " + socket.toString());
-
+//            System.out.println("clientSocket in sendToReplica: " + socket.toString());
             try{
                 OutputStream outputStream = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outputStream, true);
@@ -129,7 +128,7 @@ public class RedisMaster extends Redis{
                     }
                     pw.print(s+"\r\n");
                 }
-                pw.flush();
+//                pw.flush();
             } catch (IOException e) {
                 throw new RuntimeException("Issue in send replicas: " + e);
             }
