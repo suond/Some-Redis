@@ -19,9 +19,9 @@ public class Main {
 //          Redis redis = new Redis();
 //      }
 
-      for (String s: args){
-          System.out.println(s);
-      }
+//      for (String s: args){
+//          System.out.println(s);
+//      }
       RedisStarter.start(args);
 
   }

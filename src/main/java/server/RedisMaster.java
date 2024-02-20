@@ -121,8 +121,14 @@ public class RedisMaster extends Redis{
                             }
                         }
                         case "keys" -> {
-                            System.out.println(inputs);
-
+//                            System.out.println(inputs);
+                            if (inputs.get(3).equals("*")){
+                                InputStream fileInputStream = new FileInputStream(this.dbFile);
+                                int read;
+                                while ( (read = fileInputStream.read()) != -1){
+                                    System.out.println("read value: " + read);
+                                }
+                            }
                         }
                     }
                 }
