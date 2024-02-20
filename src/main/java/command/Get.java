@@ -12,8 +12,8 @@ public class Get implements Command{
         String key = inputs.get(3);
 
         String value = cache.get(key);
-
-        String result = value == null ? "$-1\r\n" : "+" + value + "\r\n";
+//"$-1\r\n"
+        String result = value == null ? "123\r\n" : "+" + value + "\r\n";
 
         System.out.println("ret: " + result);
 
