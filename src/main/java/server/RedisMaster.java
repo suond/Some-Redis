@@ -79,7 +79,11 @@ public class RedisMaster extends Redis{
     private void handleCommands(ArrayList<String> commandArray, Socket clientSocket) throws IOException {
         // 0=*N, 1=$S, 2=CMD/SET/GET, 3="$S, 4=KEY 5=$S 6=VAL 7=$S 8=px 9=$S 10=$milli
         int commandLength = Integer.parseInt(commandArray.getFirst().substring(1));
-
+                int counter = 0;
+        for (String s: commandArray){
+            System.out.println(counter + ": " + s);
+            counter++;
+        }
         OutputStream os = clientSocket.getOutputStream();
         PrintWriter writer = new PrintWriter(os, true);
         String command = commandArray.get(2);
