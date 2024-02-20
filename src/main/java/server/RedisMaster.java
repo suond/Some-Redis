@@ -77,21 +77,23 @@ public class RedisMaster extends Redis{
         } catch (Exception e) {
             System.out.println("Issue occurred in handle " + e.getMessage());
         } finally {
-            try {
-                clientSocket.close();
-            } catch (IOException e){
-                System.out.println("could not close socket " + e.getMessage());
-            }
+//            try {
+//                clientSocket.close();
+//            } catch (IOException e){
+//                System.out.println("could not close socket " + e.getMessage());
+//            }
+            System.out.println("DONE");
         }
 
     }
 
     private void sendToReplicas(ArrayList<String> inputs) {
-        System.out.println(replicaSockets.size());
+
         for (Socket socket: replicaSockets){
+            System.out.println(socket.toString());
             try{
                 OutputStream outputStream = socket.getOutputStream();
-                PrintWriter pw = new PrintWriter(outputStream, false);
+                PrintWriter pw = new PrintWriter(outputStream, true);
                 for (String s: inputs){
                     if (s.startsWith("$")){
                         continue;

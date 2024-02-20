@@ -22,20 +22,6 @@ public class Redis {
     String masterReplid;
     int masterReplOffset = 0;
 
-
-    public Redis( String[] args){
-//        masterReplid = randomId();
-//        setArguments(args);
-//        startServer();
-    }
-
-
-    public Redis(){
-//        masterReplid = randomId();
-//        this.port = 6379;
-//        startServer();
-    }
-
     public int getPort(){
         return this.port;
     }
