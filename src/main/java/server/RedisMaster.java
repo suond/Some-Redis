@@ -80,10 +80,10 @@ public class RedisMaster extends Redis{
         // 0=*N, 1=$S, 2=CMD/SET/GET, 3="$S, 4=KEY 5=$S 6=VAL 7=$S 8=px 9=$S 10=$milli
         int commandLength = Integer.parseInt(commandArray.getFirst().substring(1));
                 int counter = 0;
-        for (String s: commandArray){
-            System.out.println(counter + ": " + s);
-            counter++;
-        }
+//        for (String s: commandArray){
+//            System.out.println(counter + ": " + s);
+//            counter++;
+//        }
         OutputStream os = clientSocket.getOutputStream();
         PrintWriter writer = new PrintWriter(os, true);
         String command = commandArray.get(2);
@@ -131,6 +131,7 @@ public class RedisMaster extends Redis{
 //                handleGet(commandArray.get(4), writer);
                 String key = commandArray.get(4);
                 String value = cache.get(key);
+                System.out.println(value);
                 String result = value == null ? "$-1\r\n" : "+" + value + "\r\n";
                 writer.print(result);
                 writer.flush();
