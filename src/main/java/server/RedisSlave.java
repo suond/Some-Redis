@@ -83,7 +83,7 @@ public class RedisSlave extends Redis{
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }).start();
+        });
     }
 
     @Override
