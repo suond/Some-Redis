@@ -18,6 +18,10 @@ public class Main {
 //      } else {
 //          Redis redis = new Redis();
 //      }
+
+      for (String s: args){
+          System.out.println(s);
+      }
       RedisStarter.start(args);
 
   }
