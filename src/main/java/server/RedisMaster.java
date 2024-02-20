@@ -95,7 +95,7 @@ public class RedisMaster extends Redis{
                         continue;
                     }
                     System.out.println("sending this to socket "+ s);
-                    pw.print(s);
+                    pw.print(s+"\r\n");
                 }
 
             } catch (IOException e) {
