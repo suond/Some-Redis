@@ -3,6 +3,10 @@ import server.Redis;
 import server.RedisMaster;
 import server.RedisSlave;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+
 public class RedisStarter {
 
     public static void start(String[] args){
@@ -71,6 +75,7 @@ public class RedisStarter {
                 String dbname = cmd.getOptionValue("dbname");
                 server.setDbname(dbname);
             }
+            createDbFile(server);
 
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -78,5 +83,21 @@ public class RedisStarter {
         if (server instanceof RedisSlave)
             ((RedisSlave) server).connectToMaster();
         server.startServer();
+    }
+
+    private static void createDbFile(Redis server) {
+        Path dir = Path.of ("");
+        String dbfilename = "test.rdb";
+        if (server.getDbname() != null && server.getDir() != null){
+            dir = Path.of(server.getDir());
+            dbfilename = server.getDbname();
+        }
+        File dbFile = new File( dir.resolve( dbfilename ).toString());
+        try{
+            dbFile.createNewFile();
+            server.dbFile = dbFile;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
