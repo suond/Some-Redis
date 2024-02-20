@@ -60,7 +60,7 @@ public class RedisMaster extends Redis{
 
             String command;
             while ((command = reader.readLine()) != null) {
-//                System.out.println("command: " + command);
+
                 if (command.startsWith("*")){
                     int numOfItems = Integer.parseInt(command.substring(1));
                     //0 = size of 1, 1 = cmd, 2 = size of 3, 3 = key/echo val, 4 = size of set, 5 = setVal
@@ -92,7 +92,6 @@ public class RedisMaster extends Redis{
                             System.out.println("Client socket in psync: " + clientSocket.toString());
                             outputStream.write(new Psync().print(masterReplid, String.valueOf(masterReplOffset)));
                             sendRDBFile(outputStream);
-
                             replicaSockets.add(clientSocket);
                         }
                     }
@@ -123,12 +122,12 @@ public class RedisMaster extends Redis{
                     if (s.startsWith("$")){
                         continue;
                     }
-                    System.out.println("sending this to socket "+ s);
+//                    System.out.println("sending this to socket "+ s);
                     pw.print(s+"\r\n");
                 }
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Issue in send replicas: " + e);
             }
         }
     }
