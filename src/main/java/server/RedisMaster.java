@@ -92,6 +92,7 @@ public class RedisMaster extends Redis{
                 System.out.println("ECHO");
                 String word = commandArray.get(4);
                 writer.print("$"+word.length()+"\r\n"+word+"\r\n");
+                writer.flush();
                 break;
             case "set":
                 if(commandLength==3) {
