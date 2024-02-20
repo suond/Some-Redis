@@ -79,7 +79,10 @@ public class RedisSlave extends Redis{
                             outputStream.write(new Set().print(this, inputs, cache));
                         }
                         case Constants.CMD_GET ->{
-                            System.out.println("does it go into here?");
+//                            System.out.println("does it go into here?");
+                            for (String key: cache.keySet()){
+                                System.out.println(cache.get(key));
+                            }
                             outputStream.write(new Get().printWithLoggingType(this,inputs, cache));
                         }
 
