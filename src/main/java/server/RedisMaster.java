@@ -113,6 +113,7 @@ public class RedisMaster extends Redis{
                                 throw new RuntimeException(e);
                             }
                         });
+                        cache.put(commandArray.get(4), commandArray.get(6));
                         writer.print("+OK\r\n");
                         writer.flush();
                     }
