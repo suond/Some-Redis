@@ -13,8 +13,6 @@ public class Set implements Command{
     private static final ExecutorService thread = Executors.newSingleThreadExecutor();
     @Override
     public byte[] print(List<String> inputs, Map<String, String> cache) {
-//        System.out.println("Inside set");
-        System.out.println("entering in replica SET");
         String key = inputs.get(3);
         String value = inputs.get(5);
 
