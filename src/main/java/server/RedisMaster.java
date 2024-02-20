@@ -129,6 +129,7 @@ public class RedisMaster extends Redis{
                 PrintWriter pw = new PrintWriter(outputStream, true);
 //                System.out.println(inputs.size());
                 int arraySize=inputs.size() / 2;
+                System.out.println(arraySize);
                 pw.print("*3\r\n");
                 for (String s: inputs){
 //                    if (s.startsWith("$")){
