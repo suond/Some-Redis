@@ -37,9 +37,11 @@ public class RedisSlave extends Redis{
             String pingCmd = Utils.toRESP(new String[] {"PING"});
             String replCmd1 = Utils.toRESP(new String[] {"REPLCONF","listening-port", Integer.toString(this.port)});
             String replCmd2 = Utils.toRESP(new String[] {"REPLCONF","capa", "psync2"});
+            String psyncCmd = Utils.toRESP(new String[] {"PSYNC", "?", "-1"});
             writer.print(pingCmd);
             writer.print(replCmd1);
             writer.print(replCmd2);
+            writer.print(psyncCmd);
             writer.flush();
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
