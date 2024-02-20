@@ -128,6 +128,7 @@ public class RedisMaster extends Redis{
                 OutputStream outputStream = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outputStream, true);
                 System.out.println(inputs.size());
+                pw.print("*3");
                 for (String s: inputs){
 //                    if (s.startsWith("$")){
 //                        continue;
