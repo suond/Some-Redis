@@ -66,7 +66,7 @@ public class RedisSlave extends Redis{
                     for (int i =0; i < numOfItems * 2; i++){
                         inputs.add(reader.readLine());
                     }
-                    System.out.println("inputs for slave");
+                    System.out.println("inputs for slave, size of input is: " + inputs.size());
                     inputs.stream().forEach(System.out::println);
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
@@ -77,8 +77,11 @@ public class RedisSlave extends Redis{
                         case Constants.CMD_SET ->{
                             outputStream.write(new Set().print(this, inputs, cache));
                         }
-                        case Constants.CMD_GET ->
-                                outputStream.write(new Get().print(inputs, cache));
+                        case Constants.CMD_GET ->{
+                            System.out.println("does it go into here?");
+                            outputStream.write(new Get().print(inputs, cache));
+                        }
+
                         case Constants.CMD_INFO ->{
                             if (inputs.get(3).equalsIgnoreCase("replication")){
                                 outputStream.write(new Info(this).print(inputs,cache));
