@@ -31,6 +31,7 @@ public class RedisStarter {
                 .hasArgs()
                 .desc("name of db filename")
                 .build();
+        options.addOption(option);
         parseAndStart(options, args);
     }
 
