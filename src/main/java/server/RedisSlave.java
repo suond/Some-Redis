@@ -76,14 +76,16 @@ public class RedisSlave extends Redis{
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
                         case Constants.CMD_SET ->{
+                            System.out.println("does this get called");
                             outputStream.write(new Set().print(this, inputs, cache));
                         }
                         case Constants.CMD_GET ->{
+                            System.out.println(cache.keySet().size());
 //                            System.out.println("does it go into here?");
-                            for (String key: cache.keySet()){
-                                String a = cache.get(key);
-                                System.out.println("value of a is: " + a);
-                            }
+//                            for (String key: cache.keySet()){
+//                                String a = cache.get(key);
+//                                System.out.println("value of a is: " + a);
+//                            }
                             outputStream.write(new Get().printWithLoggingType(this,inputs, cache));
                         }
 
