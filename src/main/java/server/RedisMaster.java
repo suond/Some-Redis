@@ -67,6 +67,7 @@ public class RedisMaster extends Redis{
                         case Constants.CMD_PSYNC -> {
                             outputStream.write(new Psync().print(masterReplid, String.valueOf(masterReplOffset)));
                             sendRDBFile(outputStream);
+                            System.out.println("Client socket: " + clientSocket.toString());
                             replicaSockets.add(clientSocket);
                         }
                     }
@@ -86,10 +87,11 @@ public class RedisMaster extends Redis{
     }
 
     private void sendToReplicas(ArrayList<String> inputs) {
+        System.out.println(replicaSockets.size());
         for (Socket socket: replicaSockets){
             try{
                 OutputStream outputStream = socket.getOutputStream();
-                PrintWriter pw = new PrintWriter(outputStream, true);
+                PrintWriter pw = new PrintWriter(outputStream, false);
                 for (String s: inputs){
                     if (s.startsWith("$")){
                         continue;
