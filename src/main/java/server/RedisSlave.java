@@ -32,8 +32,6 @@ public class RedisSlave extends Redis{
         try{
             Socket masterSocket = new Socket(this.masterHost, this.masterPort);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()));
-//            String pingCmd = "*1\r\n$4\r\nPING\r\n";
-            System.out.println(String.format("port = %d, masterport = %d", this.port, this.masterPort));
             String pingCmd = Utils.toRESP(new String[] {"PING"});
             String replCmd1 = Utils.toRESP(new String[] {"REPLCONF","listening-port", Integer.toString(this.port)});
             String replCmd2 = Utils.toRESP(new String[] {"REPLCONF","capa", "psync2"});

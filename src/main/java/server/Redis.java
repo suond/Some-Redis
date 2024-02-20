@@ -110,8 +110,9 @@ public class Redis {
                             }
                         }
                     }
+                } else {
+                    System.out.println("what is this!?!");
                 }
-
             }
         } catch (Exception e) {
             System.out.println("Issue occurred in handle " + e.getMessage());
