@@ -62,6 +62,15 @@ public class RedisStarter {
                 int p = Integer.parseInt(cmd.getOptionValue("port"));
                 server.setPort(p);
             }
+            if (cmd.hasOption("dir")){
+                String dir = cmd.getOptionValue("dir");
+                server.setDir(dir);
+            }
+
+            if (cmd.hasOption("dbname")){
+                String dbname = cmd.getOptionValue("dbname");
+                server.setDbname(dbname);
+            }
 
         } catch (ParseException e) {
             throw new RuntimeException(e);

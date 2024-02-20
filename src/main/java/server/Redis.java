@@ -21,6 +21,8 @@ public class Redis {
     String role = "master";
     String masterReplid;
     int masterReplOffset = 0;
+    String dir;
+    String dbname;
 
     public int getPort(){
         return this.port;
@@ -41,6 +43,12 @@ public class Redis {
 
     public void setRole(String role){
         this.role = role;
+    }
+    public void setDir(String dir) {
+        this.dir = dir;
+    }
+    public void setDbname(String dbname){
+        this.dbname =dbname;
     }
 
      public void startServer(){

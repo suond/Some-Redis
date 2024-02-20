@@ -18,6 +18,9 @@ public class RedisMaster extends Redis{
 
     HashSet<Socket> replicaSockets;
 
+    String dir;
+    String dbname;
+
     public RedisMaster(){
         this.masterReplid = randomId();
         this.masterReplOffset = 0;
@@ -29,6 +32,13 @@ public class RedisMaster extends Redis{
 
     public int getMasterReplOffset(){
         return this.masterReplOffset;
+    }
+
+    public void setDir(String dir) {
+        this.dir = dir;
+    }
+    public void setDbname(String dbname){
+        this.dbname =dbname;
     }
 
     @Override
@@ -102,13 +112,13 @@ public class RedisMaster extends Redis{
                             if (inputs.get(3).equalsIgnoreCase("get")){
                                 String print = "*2\r\n";
                                 if(inputs.get(5).toLowerCase().equals("dir")){
-                                    String dirName = inputs.get(7);
-                                    print += String.format("$3\r\ndir\r\n$%s\r\n%s\r\n",dirName.length(), dirName );
+//                                    String dirName = inputs.get(7);
+                                    print += String.format("$3\r\ndir\r\n$%s\r\n%s\r\n",dir.length(), dir );
                                     outputStream.write(print.getBytes());
 //                                    outputStream.flush();
                                 } else if (inputs.get(5).toLowerCase().equals("dbfilename")) {
-                                    String dirName = inputs.get(7);
-                                    print += String.format("$10\r\ndbfilename\r\n$%s\r\n%s\r\n",dirName.length(), dirName);
+//                                    String dirName = inputs.get(7);
+                                    print += String.format("$10\r\ndbfilename\r\n$%s\r\n%s\r\n",dbname.length(), dbname);
                                     outputStream.write(print.getBytes());
 //                                    outputStream.flush();
                                 }
