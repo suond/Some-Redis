@@ -7,13 +7,17 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class RedisMaster extends Redis{
 
+    HashSet<Socket> replicaSockets;
+
     public RedisMaster(){
         this.masterReplid = randomId();
         this.masterReplOffset = 0;
+        replicaSockets = new HashSet<>();
     }
     public String getMasterReplid() {
         return this.masterReplid;
@@ -47,8 +51,10 @@ public class RedisMaster extends Redis{
                                 outputStream.write( new Ping().print(inputs, cache));
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
-                        case Constants.CMD_SET ->
-                                outputStream.write(new Set().print(inputs, cache));
+                        case Constants.CMD_SET ->{
+                            outputStream.write(new Set().print(inputs, cache));
+                            sendToReplicas(inputs);    
+                        }
                         case Constants.CMD_GET ->
                                 outputStream.write(new Get().print(inputs, cache));
                         case Constants.CMD_INFO ->{
@@ -59,11 +65,9 @@ public class RedisMaster extends Redis{
                         case Constants.CMD_REPLCONF ->
                             outputStream.write(new ReplConf().print(inputs,cache));
                         case Constants.CMD_PSYNC -> {
-                            String output = String.format(
-                                    "+FULLRESYNC %s %s%s", this.masterReplid, this.masterReplOffset, Constants.R_N
-                            );
-                            outputStream.write(output.getBytes());
+                            outputStream.write(new Psync().print(masterReplid, String.valueOf(masterReplOffset)));
                             sendRDBFile(outputStream);
+                            replicaSockets.add(clientSocket);
                         }
                     }
                 }
@@ -79,6 +83,21 @@ public class RedisMaster extends Redis{
             }
         }
 
+    }
+
+    private void sendToReplicas(ArrayList<String> inputs) {
+        for (Socket socket: replicaSockets){
+            try{
+                OutputStream outputStream = socket.getOutputStream();
+                PrintWriter pw = new PrintWriter(outputStream, true);
+                for (String s: inputs){
+                    System.out.println(s);
+                }
+                pw.print("i'm 10 years old");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private void sendRDBFile(OutputStream outputStream){
