@@ -6,6 +6,7 @@ import java.util.Map;
 public class Get implements Command{
     @Override
     public byte[] print(List<String> inputs, Map<String, String> cache) {
+        inputs.stream().forEach(System.out::println);
         String key = inputs.get(3);
 
         String value = cache.get(key);

@@ -67,7 +67,7 @@ public class RedisSlave extends Redis{
                         inputs.add(reader.readLine());
                     }
                     System.out.println("inputs for slave, size of input is: " + inputs.size());
-                    inputs.stream().forEach(System.out::println);
+//                    inputs.stream().forEach(System.out::println);
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
                         case Constants.CMD_PING ->
