@@ -92,7 +92,7 @@ public class RedisMaster extends Redis{
                 PrintWriter pw = new PrintWriter(outputStream, true);
                 for (String s: inputs){
 //                    System.out.println(s);
-                    if s.startsWith("$"){
+                    if (s.startsWith("$")){
                         continue;
                     }
                     pw.print(s);
