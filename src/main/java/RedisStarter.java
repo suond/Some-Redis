@@ -19,6 +19,18 @@ public class RedisStarter {
                 .desc("server slave of appointed master and ip")
                 .build();
         options.addOption(option);
+
+        option = Option.builder("dir")
+                .longOpt("dir")
+                .hasArg()
+                .desc("directory path")
+                .build();
+        options.addOption(option);
+        option = Option.builder("dbfilename")
+                .longOpt("dbfilename")
+                .hasArgs()
+                .desc("name of db filename")
+                .build();
         parseAndStart(options, args);
     }
 
@@ -34,8 +46,6 @@ public class RedisStarter {
                 server = new RedisSlave();
                 server.setRole("slave");
                 String[] replicaof = cmd.getOptionValues("replicaof");
-//                for (String s: replicaof)
-//                    System.out.println(s);
                 if (replicaof[0].equals("localhost")){
                     ((RedisSlave)server).setMasterHost("127.0.0.1");
                 } else {
