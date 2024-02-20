@@ -58,7 +58,11 @@ public class RedisSlave extends Redis{
             try{
                 InputStream is = masterSocket.getInputStream();
                 int ch;
+                System.out.println("going into here--try");
+
                 while ( (ch = is.read()) != -1 ){
+                    System.out.println("going into here--try-while");
+
                     int nextCharacter = is.read() - 48;
 
                     int arrayLength = nextCharacter * 2;
