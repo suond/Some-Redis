@@ -51,6 +51,7 @@ public class Redis {
             while (!serverSocket.isClosed()) {
                 try {
                     final Socket clientSocket = serverSocket.accept();
+                    System.out.println(clientSocket.toString());
                     executorService.execute(() -> handle(clientSocket));
                 } catch (Exception e) {
                     System.out.println("IOException: " + e.getMessage());
