@@ -123,12 +123,13 @@ public class RedisMaster extends Redis{
                 OutputStream outputStream = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outputStream, true);
                 for (String s: inputs){
-                    if (s.startsWith("$")){
-                        continue;
-                    }
-                    pw.println("*3\r\n$3\r\nset\r\n$3\r\nfoo\r\n$3\r\n123\r\n");
+//                    if (s.startsWith("$")){
+//                        continue;
+//                    }
+//                    pw.println("*3\r\n$3\r\nset\r\n$3\r\nfoo\r\n$3\r\n123\r\n");
+                    pw.print("$3\r\nSET\r\n");
                 }
-//                pw.flush();
+                pw.flush();
             } catch (IOException e) {
                 throw new RuntimeException("Issue in send replicas: " + e);
             }
