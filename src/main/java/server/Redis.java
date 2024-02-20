@@ -19,8 +19,6 @@ public class Redis {
     ExecutorService executorService;
     Map<String, String> cache = new HashMap<>();
     String role = "master";
-//    String masterHost;
-//    int masterPort;
     String masterReplid;
     int masterReplOffset = 0;
 
@@ -31,30 +29,6 @@ public class Redis {
 //        startServer();
     }
 
-//    private void setArguments(String[] args) {
-//        for (int i = 0; i < args.length; i++){
-//            if (args[i].equals("--port")){
-//                try{
-//                    this.port = Integer.parseInt(args[i+1]);
-//                } catch (NumberFormatException e){
-//                    System.out.println("can't parse number");
-//                    System.exit(1);
-//                }
-//            }
-//            if (args[i].equals("--replicaof") && i+2 < args.length){
-//                String masterHost = args[i+1];
-//                setMasterHost(masterHost);
-//                try{
-//                    int masterIp = Integer.parseInt(args[i+2]);
-//                    setMasterIp(masterIp);
-//                } catch (NumberFormatException e){
-//                    System.out.println("can't parse number");
-//                    System.exit(1);
-//                }
-//                setRole("slave");
-//            }
-//        }
-//    }
 
     public Redis(){
 //        masterReplid = randomId();
@@ -103,7 +77,7 @@ public class Redis {
         }
     }
 
-     private void handle (Socket clientSocket){
+      void handle (Socket clientSocket){
         try (InputStream inputStream = clientSocket.getInputStream()){
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
