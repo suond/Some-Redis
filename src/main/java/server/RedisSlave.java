@@ -67,6 +67,9 @@ public class RedisSlave extends Redis{
 
                     int arrayLength = nextCharacter * 2;
                     ArrayList<String> commandArray = new ArrayList<>();
+                    for (String s: commandArray){
+                        System.out.println(s);
+                    }
                     commandArray.add("*"+ nextCharacter);
                     is.read();
                     is.read();
