@@ -38,7 +38,7 @@ public class RedisStarter {
 //                    System.out.println(s);
                 ((RedisSlave)server).setMasterHost(replicaof[0]);
                 ((RedisSlave)server).setMasterPort(Integer.parseInt(replicaof[1]));
-                ((RedisSlave)server).connectToMaster();
+//                ((RedisSlave)server).connectToMaster();
             } else {
                 server = new RedisMaster();
                 server.setRole("master");
@@ -52,6 +52,8 @@ public class RedisStarter {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+        if (server instanceof RedisSlave)
+            ((RedisSlave) server).connectToMaster();
         server.startServer();
     }
 }
