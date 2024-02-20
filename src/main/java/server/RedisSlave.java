@@ -13,14 +13,10 @@ import java.util.concurrent.Executors;
 
 public class RedisSlave extends Redis{
     String masterHost;
-    Socket masterSocket;
+    Socket masterSocket = null;
     int masterPort;
     String role = "slave";
 //    int MasterPort;
-
-    public RedisSlave(){
-        super();
-    }
 
     public void setMasterHost(String masterHost){
         this.masterHost = masterHost;
@@ -31,7 +27,13 @@ public class RedisSlave extends Redis{
     }
     @Override
     public void startServer(){
+
         executorService = Executors.newCachedThreadPool();
+        try{
+            listenToMaster();
+        } catch(Exception e){
+            System.out.println( e.getMessage());
+        }
         try(ServerSocket serverSocket = new ServerSocket(this.port)) {
             serverSocket.setReuseAddress(true);
 
@@ -49,6 +51,40 @@ public class RedisSlave extends Redis{
             executorService.shutdown();
         }
     }
+
+    public void listenToMaster() throws IOException{
+        new Thread( () ->{
+            try{
+                InputStream is = masterSocket.getInputStream();
+                int ch;
+                while ( (ch = is.read()) != -1 ){
+                    int nextCharacter = is.read() - 48;
+
+                    int arrayLength = nextCharacter * 2;
+                    ArrayList<String> commandArray = new ArrayList<>();
+                    commandArray.add("*"+ nextCharacter);
+                    is.read();
+                    is.read();
+                    while (arrayLength > 0) {
+                        StringBuilder sb = new StringBuilder();
+                        while ((ch = is.read()) != -1) {
+                            if (ch == '\r') {
+                                break;
+                            }
+                            sb.append((char)ch);
+                        }
+                        is.read();
+                        commandArray.add(sb.toString());
+                        arrayLength--;
+                    }
+                    commandArray.stream().forEach(System.out::println);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
+
     @Override
     void handle (Socket clientSocket){
         try (InputStream inputStream = clientSocket.getInputStream()){
