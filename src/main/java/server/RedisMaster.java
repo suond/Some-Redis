@@ -65,9 +65,10 @@ public class RedisMaster extends Redis{
                         case Constants.CMD_REPLCONF ->
                             outputStream.write(new ReplConf().print(inputs,cache));
                         case Constants.CMD_PSYNC -> {
+                            System.out.println("Client socket in psync: " + clientSocket.toString());
                             outputStream.write(new Psync().print(masterReplid, String.valueOf(masterReplOffset)));
                             sendRDBFile(outputStream);
-                            System.out.println("Client socket: " + clientSocket.toString());
+
                             replicaSockets.add(clientSocket);
                         }
                     }
