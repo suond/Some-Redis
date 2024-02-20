@@ -88,7 +88,7 @@ public class Redis {
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
                         case Constants.CMD_SET ->{
-                            System.out.println("entering in replica SET in master class");
+                            System.out.println("entering in replica SET in mast");
                             outputStream.write(new Set().print(inputs, cache));
                         }
                         case Constants.CMD_GET ->

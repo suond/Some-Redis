@@ -57,7 +57,9 @@ public class RedisSlave extends Redis{
             OutputStream outputStream = clientSocket.getOutputStream();
 
             String command;
+
             while ((command = reader.readLine()) != null) {
+                System.out.println("role: "+ role + " ," +  command);
 //                System.out.println("command: " + command);
                 String f = String.format("role is %s, command is %s", this.role, command);
                 System.out.println(f);
@@ -74,8 +76,6 @@ public class RedisSlave extends Redis{
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
                         case Constants.CMD_SET ->{
-                            System.out.println("entering in replica SET!!!");
-                            Thread.sleep(100);
                             outputStream.write(new Set().print(inputs, cache));
                         }
                         case Constants.CMD_GET ->
