@@ -127,10 +127,11 @@ public class RedisMaster extends Redis{
             try{
                 OutputStream outputStream = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outputStream, true);
-//                System.out.println(inputs.size());
                 int arraySize=inputs.size() / 2;
-                System.out.println(arraySize);
-                pw.print("*3\r\n");
+//                System.out.println(arraySize);
+                //this line wasted 4 hours of my time
+                String first = String.valueOf(arraySize) + Constants.R_N;
+                pw.print(first);
                 for (String s: inputs){
 //                    if (s.startsWith("$")){
 //                        continue;

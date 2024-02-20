@@ -51,7 +51,7 @@ public class RedisSlave extends Redis{
     }
     @Override
     void handle (Socket clientSocket){
-        System.out.println("Here?");
+//        System.out.println("Here?");
         try (InputStream inputStream = clientSocket.getInputStream()){
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
