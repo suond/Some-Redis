@@ -98,6 +98,7 @@ public class RedisMaster extends Redis{
                         }
                         case "config" -> {
                             System.out.println("going into here");
+                            System.out.println(inputs);
                             if (inputs.get(3).equalsIgnoreCase("get")){
                                 String print = "*2\r\n";
                                 if(inputs.get(5).toLowerCase().equals("dir")){
