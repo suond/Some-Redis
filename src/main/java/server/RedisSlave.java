@@ -28,12 +28,12 @@ public class RedisSlave extends Redis{
     @Override
     public void startServer(){
 
-        executorService = Executors.newCachedThreadPool();
         try{
             listenToMaster();
         } catch(Exception e){
             System.out.println( e.getMessage());
         }
+        executorService = Executors.newCachedThreadPool();
         try(ServerSocket serverSocket = new ServerSocket(this.port)) {
             serverSocket.setReuseAddress(true);
 
@@ -53,6 +53,7 @@ public class RedisSlave extends Redis{
     }
 
     public void listenToMaster() throws IOException{
+        System.out.println("going into here");
         new Thread( () ->{
             try{
                 InputStream is = masterSocket.getInputStream();
@@ -77,7 +78,7 @@ public class RedisSlave extends Redis{
                         commandArray.add(sb.toString());
                         arrayLength--;
                     }
-                    commandArray.stream().forEach(System.out::println);
+                    System.out.println("size of command array: "+ commandArray.size());
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
