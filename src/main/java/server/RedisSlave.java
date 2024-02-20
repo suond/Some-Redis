@@ -37,7 +37,6 @@ public class RedisSlave extends Redis{
             while (!serverSocket.isClosed()) {
                 try {
                     final Socket clientSocket = serverSocket.accept();
-//                    System.out.println("client info in redis slave startServer: " + clientSocket.toString());
                     executorService.execute(() -> handle(clientSocket));
                 } catch (Exception e) {
                     System.out.println("IOException: " + e.getMessage());
@@ -51,7 +50,6 @@ public class RedisSlave extends Redis{
     }
     @Override
     void handle (Socket clientSocket){
-//        System.out.println("Here?");
         try (InputStream inputStream = clientSocket.getInputStream()){
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -60,8 +58,6 @@ public class RedisSlave extends Redis{
             String command;
 
             while ((command = reader.readLine()) != null) {
-//                System.out.println("role: "+ role + " ," +  command);
-//                System.out.println("command: " + command);
                 String f = String.format("role is %s, command is %s", this.role, command);
                 System.out.println(f);
                 if (command.startsWith("*")){
@@ -70,7 +66,8 @@ public class RedisSlave extends Redis{
                     for (int i =0; i < numOfItems * 2; i++){
                         inputs.add(reader.readLine());
                     }
-//                    System.out.println("Here?");
+                    System.out.println("inputs for slave");
+                    inputs.stream().forEach(System.out::println);
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
                         case Constants.CMD_PING ->
@@ -117,7 +114,6 @@ public class RedisSlave extends Redis{
             writer.print(replCmd2);
             writer.print(psyncCmd);
             writer.flush();
-//            System.out.println("master socket info in connect to master:" + masterSocket);
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

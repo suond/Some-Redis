@@ -40,9 +40,7 @@ public class RedisMaster extends Redis{
             while (!serverSocket.isClosed()) {
                 try {
                     final Socket clientSocket = serverSocket.accept();
-//                    System.out.println("clientSocket in redis master startServer: " + clientSocket.toString());
                     executorService.execute(() -> {
-//                        handleClient(clientSocket);
                         handle(clientSocket);
                     });
                 } catch (Exception e) {
@@ -59,7 +57,6 @@ public class RedisMaster extends Redis{
     @Override
     void handle (Socket clientSocket){
         try (InputStream inputStream = clientSocket.getInputStream()){
-//            System.out.println("clientSocket info in redis master startServer: " + clientSocket);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             OutputStream outputStream = clientSocket.getOutputStream();
 
@@ -77,13 +74,11 @@ public class RedisMaster extends Redis{
                     String cmd = inputs.get(1);
                     switch (cmd.toLowerCase()) {
                         case Constants.CMD_PING ->{
-                                outputStream.write( new Ping().print(inputs, cache));
-//                            System.out.println("Client socket in ping: " + clientSocket);
+                            outputStream.write( new Ping().print(inputs, cache));
                         }
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));
                         case Constants.CMD_SET ->{
-//                            System.out.println("entering in replica SET in REDIS MASTER master class");
                             outputStream.write(new Set().print(this, inputs, cache));
                             sendToReplicas(inputs);    
                         }
@@ -97,7 +92,6 @@ public class RedisMaster extends Redis{
                         case Constants.CMD_REPLCONF ->
                             outputStream.write(new ReplConf().print(inputs,cache));
                         case Constants.CMD_PSYNC -> {
-//                            System.out.println("Client socket in psync: " + clientSocket.toString());
                             outputStream.write(new Psync().print(masterReplid, String.valueOf(masterReplOffset)));
                             sendRDBFile(outputStream);
                             replicaSockets.add(clientSocket);
@@ -114,7 +108,6 @@ public class RedisMaster extends Redis{
             } catch (IOException e){
                 System.out.println("could not close socket " + e.getMessage());
             }
-//            System.out.println("DONE in handle");
         }
 
     }
@@ -131,14 +124,10 @@ public class RedisMaster extends Redis{
 //                System.out.println(arraySize);
                 //this line wasted 4 hours of my time
                 String first = "*"+Integer.toString(arraySize) + "\r\n";
-                System.out.println("arraySize = " + arraySize + ", the string to print: " + first);
-                System.out.println("*3\r\n");
                 pw.print(first);
                 for (String s: inputs){
-//                    if (s.startsWith("$")){
-//                        continue;
-//                    }
-//                    pw.println("*3\r\n$3\r\nset\r\n$3\r\nfoo\r\n$3\r\n123\r\n");
+//
+//                  pw.println("*3\r\n$3\r\nset\r\n$3\r\nfoo\r\n$3\r\n123\r\n");
                     pw.print(s+"\r\n");
                 }
                 pw.flush();
