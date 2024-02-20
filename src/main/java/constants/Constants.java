@@ -10,4 +10,5 @@ public class Constants {
     public static final String CMD_REPLCONF = "replconf";
     public static final String R_N = "\r\n";
 
+    public static final String CMD_PSYNC = "psync";
 }
