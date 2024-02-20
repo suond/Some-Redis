@@ -91,13 +91,13 @@ public class RedisMaster extends Redis{
                 OutputStream outputStream = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(outputStream, true);
                 for (String s: inputs){
-//                    System.out.println(s);
                     if (s.startsWith("$")){
                         continue;
                     }
+                    System.out.println("sending this to socket "+ s);
                     pw.print(s);
                 }
-                pw.flush();
+//                pw.flush();
 //                pw.print("i'm 10 years old");
             } catch (IOException e) {
                 throw new RuntimeException(e);
