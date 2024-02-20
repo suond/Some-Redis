@@ -125,10 +125,11 @@ public class RedisMaster extends Redis{
 //            System.out.println(socket.toString());
 //            System.out.println("clientSocket in sendToReplica: " + socket.toString());
             try{
-                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+                OutputStream outputStream = socket.getOutputStream();
+                PrintWriter pw = new PrintWriter(outputStream, true);
+//                System.out.println(inputs.size());
                 int arraySize=inputs.size() / 2;
-                //this part wasted 5 hours of my life
-                pw.print(arraySize +"\r\n");
+                pw.print("*3\r\n");
                 for (String s: inputs){
 //                    if (s.startsWith("$")){
 //                        continue;
