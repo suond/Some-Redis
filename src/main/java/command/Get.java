@@ -27,7 +27,7 @@ public class Get implements Command{
 
         String value = cache.get(key);
 
-        String result = value == null ? "123\r\n" : "+" + value + "\r\n";
+        String result = value == null ? "\r\n" : "+" + value + "\r\n";
 
         System.out.println("ret: " + result);
 
