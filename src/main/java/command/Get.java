@@ -1,5 +1,7 @@
 package command;
 
+import server.Redis;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +13,16 @@ public class Get implements Command{
 
         String value = cache.get(key);
 
-//        System.out.println("get: " + key + " gets: " + value);
-
         String result = value == null ? "$-1\r\n" : "+" + value + "\r\n";
 
+        System.out.println("ret: " + result);
+
         return result.getBytes();
+    }
+
+    public byte[] printWithLoggingType(Redis redis, List<String> inputs, Map<String, String> cache){
+        System.out.println(redis.getClass() + ", role: " + redis.getRole());
+
+        return print(inputs,cache);
     }
 }

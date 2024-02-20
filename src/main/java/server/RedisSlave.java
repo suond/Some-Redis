@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 
 public class RedisSlave extends Redis{
     String masterHost;
+    Socket masterSocket;
     int masterPort;
     String role = "slave";
 //    int MasterPort;
@@ -106,7 +107,7 @@ public class RedisSlave extends Redis{
 //        System.out.println(
 //                String.format("connect to Master: value of masterHost: %s, value of masterip: %s", masterHost,masterPort));
         try{
-            Socket masterSocket = new Socket(this.masterHost, this.masterPort);
+            masterSocket = new Socket(this.masterHost, this.masterPort);
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()));
             String pingCmd = Utils.toRESP(new String[] {"PING"});
             String replCmd1 = Utils.toRESP(new String[] {"REPLCONF","listening-port", Integer.toString(this.port)});
