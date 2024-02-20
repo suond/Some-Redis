@@ -126,7 +126,7 @@ public class RedisMaster extends Redis{
                     if (s.startsWith("$")){
                         continue;
                     }
-                    pw.print("SET foo 123\r\n");
+                    pw.println("SET foo 123\r\n");
                 }
 
             } catch (IOException e) {
