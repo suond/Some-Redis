@@ -38,7 +38,7 @@ public class RedisMaster extends Redis{
             while (!serverSocket.isClosed()) {
                 try {
                     final Socket clientSocket = serverSocket.accept();
-                    System.out.println("clientSocket in redis master startServer: " + clientSocket.toString());
+//                    System.out.println("clientSocket in redis master startServer: " + clientSocket.toString());
                     executorService.execute(() -> handle(clientSocket));
                 } catch (Exception e) {
                     System.out.println("IOException: " + e.getMessage());
@@ -54,7 +54,7 @@ public class RedisMaster extends Redis{
     @Override
     void handle (Socket clientSocket){
         try (InputStream inputStream = clientSocket.getInputStream()){
-            System.out.println("clientSocket info in redis master startServer: " + clientSocket);
+//            System.out.println("clientSocket info in redis master startServer: " + clientSocket);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             OutputStream outputStream = clientSocket.getOutputStream();
 
@@ -73,7 +73,7 @@ public class RedisMaster extends Redis{
                     switch (cmd.toLowerCase()) {
                         case Constants.CMD_PING ->{
                                 outputStream.write( new Ping().print(inputs, cache));
-                            System.out.println("Client socket in ping: " + clientSocket);
+//                            System.out.println("Client socket in ping: " + clientSocket);
                         }
                         case Constants.CMD_ECHO ->
                                 outputStream.write( new Echo().print(inputs,cache));

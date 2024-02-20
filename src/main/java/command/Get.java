@@ -10,7 +10,7 @@ public class Get implements Command{
 
         String value = cache.get(key);
 
-        System.out.println("get: " + key + " gets: " + value);
+//        System.out.println("get: " + key + " gets: " + value);
 
         String result = value == null ? "$-1\r\n" : "+" + value + "\r\n";
 

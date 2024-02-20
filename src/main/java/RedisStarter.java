@@ -45,7 +45,7 @@ public class RedisStarter {
             }
             if (cmd.hasOption("port")){
                 int p = Integer.parseInt(cmd.getOptionValue("port"));
-                System.out.println("port val is " + p);
+//                System.out.println("port val is " + p);
                 server.setPort(p);
             }
 
