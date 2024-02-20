@@ -132,6 +132,7 @@ public class RedisMaster extends Redis{
                 //this line wasted 4 hours of my time
                 String first = Integer.toString(arraySize) + "\r\n";
                 System.out.println("arraySize = " + arraySize + ", the string to print: " + first);
+                System.out.println("*3\r\n");
                 pw.print(first);
                 for (String s: inputs){
 //                    if (s.startsWith("$")){
